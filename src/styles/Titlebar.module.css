@@ -9,6 +9,7 @@
 .icon {
   height: 28px;
   width: 28px;
+  padding: 4px;
   color: var(--accent-color);
 }
 

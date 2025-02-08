@@ -1,0 +1,5 @@
+.content {
+    background: var(--article-bg);
+    height: 100%;
+    width: 100%;
+}

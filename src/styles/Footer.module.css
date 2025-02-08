@@ -4,6 +4,7 @@
   border-top: 1px solid var(--bottombar-border);
   color: rgb(225, 228, 232);
   padding: 0 0.5rem;
+  padding-left: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -15,7 +16,7 @@
   align-items: center;
 }
 
-.section {
+.section, .remoteSection {
   display: flex;
   margin-right: 0.5rem;
   height: 24px;
@@ -25,8 +26,30 @@
   font-family: "Source Sans Pro", sans-serif;
 }
 
+.remoteSection {
+    background: var(--accent-color);
+    padding: 0 0.8rem;
+}
+
+.remoteIcon {
+    color: var(--text-color);
+    font-weight: bold;
+    height: 16px;
+    width: 16px;
+}
+
 .section:hover {
-  background: var(--bottombar-hover-bg);
+  background: var(--footer-hover-bg);
+}
+
+.icon {
+    height: 14px;
+    width: 14px;
+    margin-right: 0.2rem;
+}
+
+.icon {
+    margin-right: 0.2rem;
 }
 
 @media screen and (max-width: 600px) {
