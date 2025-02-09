@@ -4,6 +4,8 @@
   flex-direction: row;
   text-align: center;
   align-items: center;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .icon {
@@ -51,6 +53,7 @@
 
 .red {
   background: #ff5555;
+  margin-right: 5px;
 }
 
 @media screen and (max-width: 900px) {

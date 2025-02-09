@@ -5,6 +5,7 @@ import Footer from './Footer'
 import { useRouter } from 'next/router'
 import styles from "@/styles/Layout.module.css";
 import Head from 'next/head'
+import Explorer from './Explorer'
 
 const Layout = ({ children }) => {
     const router = useRouter()
@@ -19,6 +20,7 @@ const Layout = ({ children }) => {
             <Titlebar />
             <div className={styles.main}>
                 <Sidebar />
+                <Explorer />
                 {children}
             </div>
             <Footer />
