@@ -1,0 +1,34 @@
+.quote {
+  position: absolute;
+  bottom: 40px;
+  right: 20px;
+  border: 1px solid var(--accent-color);
+  padding: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.36) 0px 0px 8px 2px;
+  background-color: var(--article-bg);
+  border-radius: 4px;
+  max-width: 500px;
+}
+
+.content {
+    display: flex;
+    gap: 10px;
+}
+
+.author {
+}
+
+.title {
+    padding: 0.5rem 0.75rem;
+    padding-top: 0;
+    padding-left: 0;
+    font-weight: 300;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.75rem;
+}
+
+.icon {
+    opacity: 0.5;
+}

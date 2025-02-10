@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Titlebar } from './Titlebar'
 import Sidebar from './Sidebar'
 import Footer from './Footer'
@@ -6,9 +6,11 @@ import { useRouter } from 'next/router'
 import styles from "@/styles/Layout.module.css";
 import Head from 'next/head'
 import Explorer from './Explorer'
+import Quote from './Quote'
 
 const Layout = ({ children }) => {
     const router = useRouter()
+    const [quoteVisible, setQuoteVisible] = useState(true)
     return (
         <>
             <Head>
@@ -23,6 +25,7 @@ const Layout = ({ children }) => {
                 <Explorer />
                 {children}
             </div>
+            {quoteVisible && <Quote />}
             <Footer />
         </>
     )
