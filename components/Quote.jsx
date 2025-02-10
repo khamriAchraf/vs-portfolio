@@ -48,7 +48,13 @@ const Quote = ({ setQuoteVisible }) => {
       </div>
 
       <div className={styles.btns}>
-        <p className={styles.author}>{quote.author}</p>
+        <a
+          href={`https://google.com/search?q=${quote.author}`}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          <p className={styles.author}>{quote.author}</p>
+        </a>
         <div>
           <button className={styles.button} onClick={fetchQuote}>
             Refresh
