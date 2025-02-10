@@ -11,24 +11,51 @@
 }
 
 .content {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 .author {
+    font-size: 0.8rem;
 }
 
 .title {
-    padding: 0.5rem 0.75rem;
-    padding-top: 0;
-    padding-left: 0;
-    font-weight: 300;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-    margin-bottom: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  padding-top: 0;
+  padding-left: 0;
+  font-weight: 300;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  margin-bottom: 0.75rem;
 }
 
 .icon {
-    opacity: 0.5;
+  opacity: 0.5;
+}
+
+.button {
+  background: var(--accent-color);
+  color: var(--button-text);
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border: none;
+}
+
+.btns {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sbutton {
+  background: var(--article-bg);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border: none;
 }

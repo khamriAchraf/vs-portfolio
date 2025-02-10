@@ -25,7 +25,7 @@ const Layout = ({ children }) => {
                 <Explorer />
                 {children}
             </div>
-            {quoteVisible && <Quote />}
+            {quoteVisible && <Quote setQuoteVisible={setQuoteVisible} />}
             <Footer />
         </>
     )

@@ -52,6 +52,11 @@
     margin-right: 0.2rem;
 }
 
+.qicon {
+  margin-right: 0.2rem;
+  opacity: 0.5;
+}
+
 @media screen and (max-width: 600px) {
   .footer {
     font-size: 0.6rem;
