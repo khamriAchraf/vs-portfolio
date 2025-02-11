@@ -11,6 +11,7 @@ import Quote from "./Quote";
 const Layout = ({ children }) => {
   const router = useRouter();
   const [quoteVisible, setQuoteVisible] = useState(true);
+
   return (
     <>
       <Head>
