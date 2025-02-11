@@ -6,18 +6,16 @@ import { useSelectedQuoteThemes } from "../context/selectedQuoteThemes";
 const Quote = ({ setQuoteVisible }) => {
     const [quote, setQuote] = useState({ content: "", author: "" });
 
-    const { selectedTopics, handleChangeSelectedTopics } = useSelectedQuoteThemes();
+    const { selectedTopics, handleAddTheme, handleRemoveTheme } = useSelectedQuoteThemes();
 
     const fetchQuote = async () => {
         try {
             const response = await fetch(
-                `https://quoteslate.vercel.app/api/quotes/random?tags=${selectedTopics.join(
-                    ",")}`
-            )
-
+                `/api/quotes?themes=${selectedTopics.join(",")}`
+            );
 
             const data = await response.json();
-            if (data.length > 0) {
+            if (data) {
                 const newQuote = {
                     content: data.quote,
                     author: data.author,
@@ -30,6 +28,7 @@ const Quote = ({ setQuoteVisible }) => {
             console.error("Error fetching quote:", error);
         }
     };
+
 
     useEffect(() => {
         const savedQuote = localStorage.getItem("dailyQuote");

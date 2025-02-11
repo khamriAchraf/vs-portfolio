@@ -1,0 +1,19 @@
+.selectedTheme,
+.unselectedTheme {
+  padding: 8px;
+  border: 1px solid var(--button-bg);
+  border-radius: 4px;
+  margin: 4px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.selectedTheme {
+  background-color: var(--accent-color);
+  color: var(--button-color);
+}
+
+.unselectedTheme {
+  background-color: transparent;
+  color: var(--text-color);
+}

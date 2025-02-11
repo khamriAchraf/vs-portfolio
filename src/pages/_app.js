@@ -1,6 +1,6 @@
 import "@/styles/themes.css";
 import "@/styles/globals.css";
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../../components/Layout";
 import { SelectedQuoteThemesProvider } from "../../context/selectedQuoteThemes";
 

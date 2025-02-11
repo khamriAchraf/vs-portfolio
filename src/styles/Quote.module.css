@@ -35,7 +35,7 @@
 }
 
 .button {
-  background: var(--accent-color);
+  background: var(--button-bg);
   color: var(--button-text);
   cursor: pointer;
   padding: 0.5rem 1rem;
