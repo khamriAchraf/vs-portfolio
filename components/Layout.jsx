@@ -7,11 +7,51 @@ import styles from "@/styles/Layout.module.css";
 import Head from "next/head";
 import Explorer from "./Explorer";
 import Quote from "./Quote";
+import { FaReact } from "react-icons/fa";
+import { FaHtml5 } from "react-icons/fa";
+import { FaCss3 } from "react-icons/fa";
+import { FaJs } from "react-icons/fa";
+import { VscMarkdown } from "react-icons/vsc";
+import Tabsbar from "./Tabsbar";
+
+
+const explorerItems = [
+  {
+    name: "home.jsx",
+    path: "/",
+    Icon: FaReact,
+    class: styles.react
+  },
+  {
+    name: "about.html",
+    path: "/about",
+    Icon: FaHtml5,
+    class: styles.html
+  },
+  {
+    name: "contact.css",
+    path: "/contact",
+    Icon: FaCss3,
+    class: styles.css
+  },
+  {
+    name: "projects.js",
+    path: "/projects",
+    Icon: FaJs,
+    class: styles.js
+  },
+  {
+    name: "github.md",
+    path: "/github",
+    Icon: VscMarkdown,
+    class: styles.md
+  },
+];
 
 const Layout = ({ children }) => {
   const router = useRouter();
   const [quoteVisible, setQuoteVisible] = useState(true);
-  
+
 
 
   return (
@@ -25,8 +65,13 @@ const Layout = ({ children }) => {
       <Titlebar />
       <div className={styles.main}>
         <Sidebar />
-        <Explorer />
-        <div className={styles.content}>{children}</div>
+        <Explorer explorerItems={explorerItems} />
+        <div style={{ width: '100%' }}>
+          <Tabsbar items={explorerItems} />
+          <main id="main-editor" className={styles.content}>
+            {children}
+          </main>
+        </div>
       </div>
       {quoteVisible && <Quote setQuoteVisible={setQuoteVisible} />}
       <Footer quoteVisible={quoteVisible} setQuoteVisible={setQuoteVisible} />

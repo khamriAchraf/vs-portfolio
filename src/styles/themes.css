@@ -1,5 +1,4 @@
-/* GitHub Dark */
-:root {
+[data-theme="github-dark"] {
   --main-bg: #24292e;
   --bg-text: rgba(56, 58, 61, 0.35);
   --text-color: #efefef;
@@ -24,8 +23,75 @@
   --article-bg: #1f2428;
 }
 
+[data-theme="one-dark-pro"] {
+  --main-bg: #16191d;           /* editor.background */
+  --text-color: #abb2bf;
+  --accent-color: #0078d4;      /* used for highlights */
+  --titlebar-bg: #16191d;
+  --sidebar-bg: #16191d;        /* sideBar.background */
+  --sidebar-hover-bg: #2c313a;   /* list.hoverBackground */
+  --explorer-bg: #16191d;
+  --explorer-hover-bg: #2c313a;
+  --explorer-border: #37393d;    /* sideBar.border */
+  --tabs-bg: #16191d;          /* tab.inactiveBackground */
+  --tab-bg: #16191d;
+  --tab-active-bg: #23272e;     /* tab.activeBackground */
+  --tab-border: #181a1f;        /* tab.border */
+  --footer-bg: #16191d;         /* statusBar.background */
+  --footer-border: #3e4452;     /* panel.border */
+  --footer-hover-bg: #323842;   /* tab.hoverBackground */
+  --button-bg: #404754;         /* button.background */
+  --button-text: #d7dae0;       /* approximated from activityBar.foreground */
+  --scrollbar-track-bg: #16191d; /* matching main background */
+  --scrollbar-thumb-bg: #4e566660; /* from scrollbarSlider.background */
+  --article-bg: #181a1f;
+}
+
+[data-theme="one-light"] {
+  /* Main background & text */
+  --main-bg: #FAFAFA;              /* editor.background */
+  --text-color: #383A42;           /* editor.foreground */
+
+  /* Accent & titlebar */
+  --accent-color: #526FFF;         /* activityBarBadge.background, focusBorder */
+  --titlebar-bg: #EAEAEB;          /* titleBar.activeBackground */
+
+  /* Sidebar & explorer */
+  --sidebar-bg: #EAEAEB;           /* sideBar.background */
+  --sidebar-hover-bg: #DBDBDC;      /* list.activeSelectionBackground */
+  --explorer-bg: #EAEAEB;          /* using sidebar background */
+  --explorer-hover-bg: #DBDBDC;     /* matching hover color */
+  --explorer-border: #DBDBDC;       /* dropdown.border or tab.border */
+
+  /* Tabs */
+  --tabs-bg: #EAEAEB;             /* tab.inactiveBackground */
+  --tab-bg: #EAEAEB;
+  --tab-active-bg: #FAFAFA;        /* tab.activeBackground */
+  --tab-active-foreground: #121417; /* tab.activeForeground */
+  --tab-border: #DBDBDC;           /* tab.border */
+
+  /* Footer */
+  --footer-bg: #EAEAEB;           /* statusBar.background */
+  --footer-foreground: #424243;     /* statusBar.foreground */
+  --footer-hover-bg: #DBDBDC;      /* statusBarItem.hoverBackground */
+
+  /* Buttons */
+  --button-bg: #5871EF;           /* button.background */
+  --button-text: #FFFFFF;         /* button.foreground */
+  --button-hover-bg: #6B83ED;      /* button.hoverBackground */
+
+  /* Scrollbar */
+  --scrollbar-track-bg: #FAFAFA;    /* matching main background */
+  --scrollbar-thumb-bg: #4E566680;  /* scrollbarSlider.background */
+
+  /* Article/Card background */
+  --article-bg: #EAEAEB;          /* editorGroup.background or editorWidget.background */
+}
+
+
+
 /* Dracula */
-[data-theme='dracula'] {
+[data-theme="dracula"] {
   --main-bg: #282a36;
   --bg-text: #313340;
   --text-color: #efefef;
@@ -51,7 +117,7 @@
 }
 
 /* Ayu Dark */
-[data-theme='ayu-dark'] {
+[data-theme="ayu-dark"] {
   --main-bg: #0a0e14;
   --bg-text: #101620;
   --text-color: #efefef;
@@ -77,7 +143,7 @@
 }
 
 /* Ayu Mirage */
-[data-theme='ayu-mirage'] {
+[data-theme="ayu-mirage"] {
   --main-bg: #1f2430;
   --bg-text: #21242b;
   --text-color: #efefef;
@@ -103,7 +169,7 @@
 }
 
 /* Nord */
-[data-theme='nord'] {
+[data-theme="nord"] {
   --main-bg: #2e3440;
   --bg-text: #3b414d;
   --text-color: #efefef;
@@ -129,7 +195,7 @@
 }
 
 /* Night Owl */
-[data-theme='night-owl'] {
+[data-theme="night-owl"] {
   --main-bg: #011627;
   --bg-text: #031d33;
   --text-color: #89a4bb;

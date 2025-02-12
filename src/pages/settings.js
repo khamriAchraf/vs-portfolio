@@ -31,10 +31,27 @@ const Settings = () => {
     fetchAvailableTags();
   }, []);
 
-  const themes = ["", "dracula", "ayu-dark", "ayu-mirage", "nord", "night-owl"];
+  const themes = [
+    "github-dark",
+    "one-light",
+    "dracula",
+    "ayu-dark",
+    "ayu-mirage",
+    "nord",
+    "night-owl",
+    "one-dark-pro",
+  ];
 
   return (
     <>
+      <h2 className={styles.title}>Theme</h2>
+      <p>Customize the way the website looks.</p>
+      <div className={styles.container}>
+        {themes.map((theme) => (
+          <ThemeInfo key={theme} theme={theme} />
+        ))}
+      </div>
+      <div className={styles.divider}></div>
       <h2 className={styles.title}>Quote of the day</h2>
       <p>Select the themes you wish to see in the quote of the day.</p>
       <div className={styles.topics}>
@@ -43,11 +60,6 @@ const Settings = () => {
             <ThemeChip key={topic} theme={topic} />
           ))}
       </div>
-      <h2 className={styles.title}>Theme</h2>
-      <p>Customize the way the website looks.</p>
-      {themes.map((theme) => (
-        <ThemeInfo key={theme} theme={theme} />
-      ))}
     </>
   );
 };

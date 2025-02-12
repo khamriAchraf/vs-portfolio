@@ -2,8 +2,8 @@ import React from 'react'
 import styles from "@/styles/Sidebar.module.css";
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { VscAccount, VscCode, VscFiles, VscGithubAlt, VscMention, VscSettingsGear } from 'react-icons/vsc';
-
+import { VscAccount, VscCode, VscFiles, VscGithubAlt, VscMention, VscSettingsGear, VscTerminal } from 'react-icons/vsc';
+import { GiConwayLifeGlider } from "react-icons/gi";
 const tabsItemsTop = [
     {
         id: 1,
@@ -25,6 +25,16 @@ const tabsItemsTop = [
         Icon: VscMention,
         path: '/contact',
     },
+    {
+        id: 5,
+        Icon: VscTerminal,
+        path: '/terminal',
+    },
+    {
+        id: 6,
+        Icon: GiConwayLifeGlider,
+        path: '/conway',
+    }
 ]
 
 const tabsItemsBottom = [{

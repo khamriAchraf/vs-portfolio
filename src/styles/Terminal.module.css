@@ -1,0 +1,59 @@
+/* Ensure your app root or body has: data-theme="github-dark" */
+
+.terminal {
+    background-color: var(--main-bg);
+    color: var(--text-color);
+    font-family: Consolas, "Courier New", monospace;
+    overflow-y: auto;
+    border-radius: 4px;
+  }
+  
+  .history {
+    margin-bottom: 1rem;
+  }
+  
+  .prompt {
+    color: var(--accent-color);
+    margin-right: 0.5rem;
+  }
+  
+  .output {
+    margin-left: 1rem;
+    margin-bottom: 0.5rem;
+    white-space: pre-wrap;
+    line-height: 1.4;
+  }
+  
+  /* Input area styled to mimic VS Code's integrated terminal */
+  .inputForm {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid var(--explorer-border);
+    padding-top: 0.5rem;
+  }
+  
+  .input {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    flex: 1;
+    outline: none;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.25rem 0;
+  }
+  
+  /* Optional: Style the scrollbar for a sleek look */
+  .terminal::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .terminal::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-bg);
+  }
+  
+  .terminal::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb-bg);
+    border-radius: 4px;
+  }
+  

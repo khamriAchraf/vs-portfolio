@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styles from "@/styles/Quote.module.css";
-import { VscQuote } from "react-icons/vsc";
+import { VscClose, VscQuote, VscSettings, VscSettingsGear } from "react-icons/vsc";
 import { useSelectedQuoteThemes } from "../context/selectedQuoteThemes";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Quote = ({ setQuoteVisible }) => {
+    const router = useRouter();
     const [quote, setQuote] = useState({ content: "", author: "" });
 
     const { selectedTopics, handleAddTheme, handleRemoveTheme } = useSelectedQuoteThemes();
@@ -46,7 +49,15 @@ const Quote = ({ setQuoteVisible }) => {
 
     return (
         <div className={styles.quote}>
-            <p className={styles.title}>Quote of the day</p>
+            <div className={styles.titleContainer}>
+                <p className={styles.title}>Quote of the day</p>
+                <div className={styles.content}>
+                    <Link href="/settings">
+                        <VscSettingsGear className={styles.icon} />
+                    </Link>
+                    <VscClose onClick={() => setQuoteVisible(false)} className={styles.closeIcon} />
+                </div>
+            </div>
             <div className={styles.content}>
                 <VscQuote className={styles.icon} />
                 <p>{quote.content}</p>
