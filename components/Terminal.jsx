@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
-import styles from '@/styles/Terminal.module.css';
-import { ascii, ass, gigaAscii } from '../public/ascii';
+import { useState, useRef, useEffect } from "react";
+import styles from "@/styles/Terminal.module.css";
+import { ascii, ass, gigaAscii, sieg } from "../public/ascii";
 
 // Initial file system structure.
 const initialFs = {
@@ -24,21 +24,21 @@ const Terminal = () => {
       command: "",
       output:
         "Welcome to the coolest terminal ever! 😎\n\n" +
-        "Type 'help' to see all the commands available.\n\n"
+        "Type 'help' to see all the commands available.\n\n",
     },
   ]);
-  const [command, setCommand] = useState('');
-  const [cwd, setCwd] = useState('~'); // current working directory
+  const [command, setCommand] = useState("");
+  const [cwd, setCwd] = useState("~"); // current working directory
   const [fs, setFs] = useState(initialFs);
   const endRef = useRef(null);
 
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: 'smooth' });
+    endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [history]);
 
   // Helper: get directory object from a path string.
   const getDirFromPath = (path) => {
-    const parts = path.split('/');
+    const parts = path.split("/");
     let dir = fs["~"];
     for (let i = 1; i < parts.length; i++) {
       if (!dir.children[parts[i]]) return null;
@@ -53,46 +53,46 @@ const Terminal = () => {
   // Define commands with realistic behavior.
   const baseCommands = {
     hello: {
-      description: 'Say Hello!',
-      usage: 'hello',
-      exec: () => 'Hey There!',
+      description: "Say Hello!",
+      usage: "hello",
+      exec: () => "Hey There!",
     },
     about: {
-      description: 'Prints your name.',
-      usage: 'about',
-      exec: () => 'Your Name', // Replace with your actual name.
+      description: "Tells you about me.",
+      usage: "about",
+      exec: () => "I am",
     },
     date: {
-      description: 'Shows current date and time.',
-      usage: 'date',
+      description: "Shows current date and time.",
+      usage: "date",
       exec: () => new Date().toString(),
     },
     echo: {
-      description: 'Repeats the provided text.',
-      usage: 'echo [text]',
-      exec: (args) => args.join(' '),
+      description: "Repeats the provided text.",
+      usage: "echo [text]",
+      exec: (args) => args.join(" "),
     },
     pwd: {
-      description: 'Prints the current working directory.',
-      usage: 'pwd',
+      description: "Prints the current working directory.",
+      usage: "pwd",
       exec: () => cwd,
     },
     cd: {
-      description: 'Changes the current directory.',
-      usage: 'cd [directory]',
+      description: "Changes the current directory.",
+      usage: "cd [directory]",
       exec: (args) => {
         if (args.length === 0) {
           setCwd("~");
-          return '';
+          return "";
         }
         const target = args[0];
         if (target === "..") {
-          if (cwd === "~") return 'cd: already at home directory';
-          const parts = cwd.split('/');
+          if (cwd === "~") return "cd: already at home directory";
+          const parts = cwd.split("/");
           parts.pop();
-          const newCwd = parts.join('/') || "~";
+          const newCwd = parts.join("/") || "~";
           setCwd(newCwd);
-          return '';
+          return "";
         }
         const currentDir = getDirFromPath(cwd);
         if (
@@ -102,41 +102,41 @@ const Terminal = () => {
         ) {
           const newCwd = cwd === "~" ? `~/${target}` : `${cwd}/${target}`;
           setCwd(newCwd);
-          return '';
+          return "";
         } else {
           return `cd: no such file or directory: ${target}`;
         }
       },
     },
     ls: {
-      description: 'Lists directory contents.',
-      usage: 'ls',
+      description: "Lists directory contents.",
+      usage: "ls",
       exec: () => {
         const currentDir = getDirFromPath(cwd);
         if (currentDir && currentDir.children) {
           const items = Object.keys(currentDir.children);
-          if (items.length === 0) return '';
+          if (items.length === 0) return "";
           // Append a "/" to directories.
           return items
             .map((key) => {
               const item = currentDir.children[key];
-              return item.type === "directory" ? key + '/' : key;
+              return item.type === "directory" ? key + "/" : key;
             })
-            .join('\n');
+            .join("\n");
         }
         return `ls: cannot access '${cwd}': No such directory`;
       },
     },
     whoami: {
-      description: 'Prints the current user.',
-      usage: 'whoami',
-      exec: () => 'user',
+      description: "Prints the current user.",
+      usage: "whoami",
+      exec: () => "user",
     },
     man: {
-      description: 'Shows manual for a command.',
-      usage: 'man [command]',
+      description: "Shows manual for a command.",
+      usage: "man [command]",
       exec: (args) => {
-        if (args.length === 0) return 'Usage: man [command]';
+        if (args.length === 0) return "Usage: man [command]";
         const cmdName = args[0];
         if (commands[cmdName] && !commands[cmdName].hidden) {
           return `${cmdName}: ${commands[cmdName].usage}\n\n${commands[cmdName].description}`;
@@ -145,38 +145,44 @@ const Terminal = () => {
       },
     },
     mkdir: {
-      description: 'Creates a new directory.',
-      usage: 'mkdir [directory]',
+      description: "Creates a new directory.",
+      usage: "mkdir [directory]",
       exec: (args) => {
-        if (args.length === 0) return 'Usage: mkdir [directory]';
+        if (args.length === 0) return "Usage: mkdir [directory]";
         const target = args[0];
         const currentDir = getDirFromPath(cwd);
-        if (!currentDir) return `mkdir: cannot access '${cwd}': No such directory`;
+        if (!currentDir)
+          return `mkdir: cannot access '${cwd}': No such directory`;
         if (currentDir.children[target]) {
           return `mkdir: cannot create directory '${target}': File exists`;
         }
         const newFs = cloneFs();
         // Navigate to current directory in the clone.
-        const parts = cwd.split('/');
+        const parts = cwd.split("/");
         let dir = newFs["~"];
         for (let i = 1; i < parts.length; i++) {
           dir = dir.children[parts[i]];
         }
-        dir.children[target] = { name: target, type: "directory", children: {} };
+        dir.children[target] = {
+          name: target,
+          type: "directory",
+          children: {},
+        };
         setFs(newFs);
         return `Directory '${target}' created.`;
       },
     },
     touch: {
-      description: 'Creates a new file or updates its timestamp.',
-      usage: 'touch [file]',
+      description: "Creates a new file or updates its timestamp.",
+      usage: "touch [file]",
       exec: (args) => {
-        if (args.length === 0) return 'Usage: touch [file]';
+        if (args.length === 0) return "Usage: touch [file]";
         const target = args[0];
         const currentDir = getDirFromPath(cwd);
-        if (!currentDir) return `touch: cannot access '${cwd}': No such directory`;
+        if (!currentDir)
+          return `touch: cannot access '${cwd}': No such directory`;
         const newFs = cloneFs();
-        const parts = cwd.split('/');
+        const parts = cwd.split("/");
         let dir = newFs["~"];
         for (let i = 1; i < parts.length; i++) {
           dir = dir.children[parts[i]];
@@ -191,10 +197,10 @@ const Terminal = () => {
       },
     },
     rm: {
-      description: 'Removes a file or an empty directory.',
-      usage: 'rm [file/directory]',
+      description: "Removes a file or an empty directory.",
+      usage: "rm [file/directory]",
       exec: (args) => {
-        if (args.length === 0) return 'Usage: rm [file/directory]';
+        if (args.length === 0) return "Usage: rm [file/directory]";
         const target = args[0];
         const currentDir = getDirFromPath(cwd);
         if (!currentDir) return `rm: cannot remove '${cwd}': No such directory`;
@@ -202,7 +208,7 @@ const Terminal = () => {
           return `rm: cannot remove '${target}': No such file or directory`;
         }
         const newFs = cloneFs();
-        const parts = cwd.split('/');
+        const parts = cwd.split("/");
         let dir = newFs["~"];
         for (let i = 1; i < parts.length; i++) {
           dir = dir.children[parts[i]];
@@ -213,65 +219,60 @@ const Terminal = () => {
       },
     },
     cat: {
-      description: 'Displays file contents.',
-      usage: 'cat [file]',
+      description: "Displays file contents.",
+      usage: "cat [file]",
       exec: (args) => {
-        if (args.length === 0) return 'Usage: cat [file]';
+        if (args.length === 0) return "Usage: cat [file]";
         const target = args[0];
         const currentDir = getDirFromPath(cwd);
-        if (!currentDir) return `cat: cannot access '${cwd}': No such directory`;
+        if (!currentDir)
+          return `cat: cannot access '${cwd}': No such directory`;
         if (currentDir.children[target]) {
           const item = currentDir.children[target];
           if (item.type === "file") {
-            return item.content || '';
+            return item.content || "";
           }
           return `cat: ${target}: Is a directory`;
         }
         // Special case: README.md
         if (target === "README.md") {
-          return 'This is the README file. Welcome to the terminal simulation!';
+          return "This is the README file. Welcome to the terminal simulation!";
         }
         return `cat: ${target}: No such file or directory.`;
       },
     },
     sudo: {
-      description: 'Executes a command as superuser.',
-      usage: 'sudo [command]',
-      exec: (args) =>
-        'Permission denied: You are not in the sudoers file.',
+      description: "Executes a command as superuser.",
+      usage: "sudo [command]",
+      exec: (args) => "Permission denied: You are not in the sudoers file.",
     },
     exit: {
-      description: 'Exits the terminal.',
-      usage: 'exit',
-      exec: () =>
-        'exit: Closing terminal is not allowed in the browser.',
+      description: "Exits the terminal.",
+      usage: "exit",
+      exec: () => "exit: Closing terminal is not allowed in the browser.",
     },
     history: {
-      description: 'Displays command history.',
-      usage: 'history',
-      exec: () =>
-        history.map((entry) => entry.command).join('\n'),
+      description: "Displays command history.",
+      usage: "history",
+      exec: () => history.map((entry) => entry.command).join("\n"),
     },
     random: {
-      description: 'Generates a random number between 1 and 100.',
-      usage: 'random',
+      description: "Generates a random number between 1 and 100.",
+      usage: "random",
       exec: () => Math.floor(Math.random() * 100) + 1,
     },
     banner: {
-      description: 'Displays a fancy banner.',
-      usage: 'banner',
+      description: "Displays a fancy banner.",
+      usage: "banner",
       exec: () => `
-   _____             _             _ 
-  / ____|           | |           | |
- | |     ___  _ __  | | ___   __ _| |
- | |    / _ \\| '_ \\ | |/ _ \\ / _\` | |
- | |___| (_) | | | || | (_) | (_| | |
-  \\_____\\___/|_| |_||_|\\___/ \\__,_|_|
+
+▄▀█ █▀▀ █░█ █▀█ ▄▀█ █▀▀   █▄▀ █░█ ▄▀█ █▀▄▀█ █▀█ █
+█▀█ █▄▄ █▀█ █▀▄ █▀█ █▀░   █░█ █▀█ █▀█ █░▀░█ █▀▄ █
       `,
     },
     joke: {
-      description: 'Tells a random programming joke.',
-      usage: 'joke',
+      description: "Tells a random programming joke.",
+      usage: "joke",
       exec: () => {
         const jokes = [
           "Why do programmers prefer dark mode? Because light attracts bugs!",
@@ -283,21 +284,27 @@ const Terminal = () => {
     },
     // A secret command (hidden from help).
     bikini: {
-      description: 'A secret Easter egg command.',
-      usage: 'bikini',
+      description: "A secret Easter egg command.",
+      usage: "bikini",
       exec: () => ascii,
       hidden: true,
     },
     gigachad: {
-      description: 'A secret Easter egg command.',
-      usage: 'gigachad',
+      description: "A secret Easter egg command.",
+      usage: "gigachad",
       exec: () => gigaAscii,
       hidden: true,
     },
     ass: {
-      description: 'A secret Easter egg command.',
-      usage: 'ass',
+      description: "A secret Easter egg command.",
+      usage: "ass",
       exec: () => ass,
+      hidden: true,
+    },
+    siegheil: {
+      description: "A secret Easter egg command.",
+      usage: "siegheil",
+      exec: () => sieg,
       hidden: true,
     },
   };
@@ -305,23 +312,23 @@ const Terminal = () => {
   // Merge base commands and add the built-in help command.
   const commands = { ...baseCommands };
   commands.help = {
-    description: 'Lists all commands or shows details for a specific command.',
-    usage: 'help [command]',
+    description: "Lists all commands or shows details for a specific command.",
+    usage: "help [command]",
     exec: (args) => {
       if (args.length === 0) {
-        let result = 'Available commands:\n';
+        let result = "Available commands:\n";
         Object.keys(commands).forEach((key) => {
           if (commands[key].hidden) return;
           result += `${key} - ${commands[key].description}\n`;
         });
-        result += 'clear - Clears the terminal screen.';
+        result += "clear - Clears the terminal screen.";
         return result;
       } else {
         const commandName = args[0];
         if (commands[commandName] && !commands[commandName].hidden) {
           return `${commandName}: ${commands[commandName].usage}\nDescription: ${commands[commandName].description}`;
-        } else if (commandName === 'clear') {
-          return 'clear: Clears the terminal screen.';
+        } else if (commandName === "clear") {
+          return "clear: Clears the terminal screen.";
         } else {
           return `No help available for ${commandName}`;
         }
@@ -335,13 +342,13 @@ const Terminal = () => {
     const input = command.trim();
     if (!input) return;
 
-    if (input === 'clear') {
+    if (input === "clear") {
       setHistory([]);
-      setCommand('');
+      setCommand("");
       return;
     }
 
-    const parts = input.split(' ').filter(Boolean);
+    const parts = input.split(" ").filter(Boolean);
     const cmd = parts[0];
     const args = parts.slice(1);
 
@@ -353,7 +360,7 @@ const Terminal = () => {
     }
 
     setHistory([...history, { command: input, output }]);
-    setCommand('');
+    setCommand("");
   };
 
   return (
@@ -366,7 +373,7 @@ const Terminal = () => {
             </div>
             <div className={styles.output}>
               {String(entry.output)
-                .split('\n')
+                .split("\n")
                 .map((line, i) => (
                   <div key={i}>{line}</div>
                 ))}
@@ -376,9 +383,7 @@ const Terminal = () => {
         <div ref={endRef} />
       </div>
       <form onSubmit={handleSubmit} className={styles.inputForm}>
-        <span className={styles.prompt}>
-          user@linux:{cwd}$
-        </span>
+        <span className={styles.prompt}>user@linux:{cwd}$</span>
         <input
           type="text"
           value={command}
