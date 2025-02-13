@@ -1,14 +1,16 @@
-import Head from "next/head";
-import Image from "next/image";
+import HomeSimulation from "../../components/HomeSimulation";
 import styles from "@/styles/Main.module.css";
-import { Titlebar } from "../../components/Titlebar";
-import Footer from "../../components/Footer";
-import Content from "../../components/Content";
 
 export default function Main() {
   return (
-    <>
-      Hello
-    </>
+    <div className={styles.container}>
+      <div className={styles.background}>
+        <HomeSimulation />
+      </div>
+      <div className={styles.content}>
+        <h3 className={styles.name}>Achraf Khamri</h3>
+        <p className={styles.bio}>Software Engineer</p>
+      </div>
+    </div>
   );
 }

@@ -12,9 +12,23 @@
     flex-direction: column;
     align-items: center;
   }
+
+  .patterns {
+    margin-top: 20px;
+  }
+  
+  .patternButton {
+    margin: 5px;
+    padding: 6px 10px;
+    font-size: 12px;
+    cursor: pointer;
+  }
   
   .controls {
     margin-bottom: 5px;
+    gap: 5px;
+    display: flex;
+    flex-direction: row;
   }
   
   .controls button {
@@ -57,3 +71,39 @@
     padding-left: 20px;
   }
   
+  .previewContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .previewWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .previewGrid {
+    display: grid;
+    gap: 1px;
+    margin-bottom: 5px;
+  }
+  
+  .previewCell {
+    width: 10px;
+    height: 10px;
+    background-color: var(--titlebar-bg);
+    border: 1px solid #ccc;
+  }
+  
+  .previewAlive {
+    background-color: var(--accent-color);
+  }
+  
+  .previewLabel {
+    font-size: 12px;
+    text-align: center;
+    max-width: 70px;
+  }

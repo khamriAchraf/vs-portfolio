@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "@/styles/Terminal.module.css";
-import { ascii, ass, gigaAscii, sieg } from "../public/ascii";
+import { gigaAscii } from "../public/ascii";
 
-// Initial file system structure.
 const initialFs = {
   "~": {
     name: "~",
@@ -18,7 +17,6 @@ const initialFs = {
 };
 
 const Terminal = () => {
-  // Initial history now includes a welcome message.
   const [history, setHistory] = useState([
     {
       command: "",
@@ -28,7 +26,7 @@ const Terminal = () => {
     },
   ]);
   const [command, setCommand] = useState("");
-  const [cwd, setCwd] = useState("~"); // current working directory
+  const [cwd, setCwd] = useState("~");
   const [fs, setFs] = useState(initialFs);
   const endRef = useRef(null);
 
@@ -36,7 +34,6 @@ const Terminal = () => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [history]);
 
-  // Helper: get directory object from a path string.
   const getDirFromPath = (path) => {
     const parts = path.split("/");
     let dir = fs["~"];
@@ -47,10 +44,8 @@ const Terminal = () => {
     return dir;
   };
 
-  // Clone file system to update state immutably.
   const cloneFs = () => JSON.parse(JSON.stringify(fs));
 
-  // Define commands with realistic behavior.
   const baseCommands = {
     hello: {
       description: "Say Hello!",
@@ -116,7 +111,6 @@ const Terminal = () => {
         if (currentDir && currentDir.children) {
           const items = Object.keys(currentDir.children);
           if (items.length === 0) return "";
-          // Append a "/" to directories.
           return items
             .map((key) => {
               const item = currentDir.children[key];
@@ -157,7 +151,6 @@ const Terminal = () => {
           return `mkdir: cannot create directory '${target}': File exists`;
         }
         const newFs = cloneFs();
-        // Navigate to current directory in the clone.
         const parts = cwd.split("/");
         let dir = newFs["~"];
         for (let i = 1; i < parts.length; i++) {
@@ -190,7 +183,6 @@ const Terminal = () => {
         if (dir.children[target]) {
           return `touch: updated timestamp of '${target}'`;
         }
-        // Create a file.
         dir.children[target] = { name: target, type: "file", content: "" };
         setFs(newFs);
         return `File '${target}' created.`;
@@ -234,9 +226,8 @@ const Terminal = () => {
           }
           return `cat: ${target}: Is a directory`;
         }
-        // Special case: README.md
         if (target === "README.md") {
-          return "This is the README file. Welcome to the terminal simulation!";
+          return "This is the README file. Welcome to the coolest terminal ever!";
         }
         return `cat: ${target}: No such file or directory.`;
       },
@@ -282,34 +273,14 @@ const Terminal = () => {
         return jokes[Math.floor(Math.random() * jokes.length)];
       },
     },
-    // A secret command (hidden from help).
-    bikini: {
-      description: "A secret Easter egg command.",
-      usage: "bikini",
-      exec: () => ascii,
-      hidden: true,
-    },
     gigachad: {
       description: "A secret Easter egg command.",
       usage: "gigachad",
       exec: () => gigaAscii,
       hidden: true,
     },
-    ass: {
-      description: "A secret Easter egg command.",
-      usage: "ass",
-      exec: () => ass,
-      hidden: true,
-    },
-    siegheil: {
-      description: "A secret Easter egg command.",
-      usage: "siegheil",
-      exec: () => sieg,
-      hidden: true,
-    },
   };
 
-  // Merge base commands and add the built-in help command.
   const commands = { ...baseCommands };
   commands.help = {
     description: "Lists all commands or shows details for a specific command.",
@@ -336,7 +307,6 @@ const Terminal = () => {
     },
   };
 
-  // Handle the "clear" command separately.
   const handleSubmit = (e) => {
     e.preventDefault();
     const input = command.trim();

@@ -1,0 +1,22 @@
+.simulationContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(13, 100px);
+    grid-gap: 0;
+  }
+  
+  .cell {
+    width: 100px;
+    height: 100px;
+    background-color: transparent;
+  }
+  
+  .alive {
+    background-color: var(--accent-color);
+  }
+  

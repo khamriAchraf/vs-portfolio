@@ -8,6 +8,7 @@
   background-color: var(--article-bg);
   border-radius: 4px;
   max-width: 500px;
+  z-index: 10;
 }
 
 .content {
