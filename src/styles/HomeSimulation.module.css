@@ -6,17 +6,19 @@
   
   .grid {
     display: grid;
-    grid-template-columns: repeat(13, 100px);
+    grid-template-columns: repeat(13, 150px);
     grid-gap: 0;
   }
   
   .cell {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     background-color: transparent;
   }
   
   .alive {
-    background-color: var(--accent-color);
+    background-color: var(--bg-text);
+    border-top: 1px solid var(--accent-color);
+    border-left: 1px solid var(--button-bg);
   }
   

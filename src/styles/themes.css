@@ -51,7 +51,7 @@
   /* Main background & text */
   --main-bg: #FAFAFA;              /* editor.background */
   --text-color: #383A42;           /* editor.foreground */
-
+  --bg-text: #EAEAEB;
   /* Accent & titlebar */
   --accent-color: #526FFF;         /* activityBarBadge.background, focusBorder */
   --titlebar-bg: #EAEAEB;          /* titleBar.activeBackground */
