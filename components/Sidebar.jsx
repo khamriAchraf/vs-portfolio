@@ -4,11 +4,18 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { VscAccount, VscCode, VscFiles, VscGithubAlt, VscMention, VscSettingsGear, VscTerminal } from 'react-icons/vsc';
 import { GiConwayLifeGlider } from "react-icons/gi";
+import { PiReadCvLogoLight } from "react-icons/pi";
+
 const tabsItemsTop = [
     {
         id: 1,
         Icon: VscFiles,
         path: '/',
+    },
+    {
+        id: 7,
+        Icon: PiReadCvLogoLight,
+        path: '/resume',
     },
     {
         id: 2,
