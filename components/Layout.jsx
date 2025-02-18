@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Titlebar } from "./Titlebar";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
@@ -13,6 +13,7 @@ import { FaCss3 } from "react-icons/fa";
 import { FaJs } from "react-icons/fa";
 import { VscMarkdown } from "react-icons/vsc";
 import Tabsbar from "./Tabsbar";
+import MusicPlayer from "./MusicPlayer";
 
 
 const explorerItems = [
@@ -51,7 +52,33 @@ const explorerItems = [
 const Layout = ({ children }) => {
   const router = useRouter();
   const [quoteVisible, setQuoteVisible] = useState(true);
+  const [playerVisible, setPlayerVisible] = useState(false);
 
+  const showQuote = () => {
+    setQuoteVisible(true);
+    setPlayerVisible(false);
+  };
+
+  const hideQuote = () => {
+    setQuoteVisible(false);
+  };
+
+  const showPlayer = () => {
+    setPlayerVisible(true);
+    setQuoteVisible(false);
+  };
+
+  const hidePlayer = () => {
+    setPlayerVisible(false);
+  };
+
+  const togglePlayer = () => {
+    playerVisible ? hidePlayer() : showPlayer();
+  }
+
+  const toggleQuote = () => {
+    quoteVisible ? hideQuote() : showQuote();
+  }
 
 
   return (
@@ -73,8 +100,9 @@ const Layout = ({ children }) => {
           </main>
         </div>
       </div>
-      {quoteVisible && <Quote setQuoteVisible={setQuoteVisible} />}
-      <Footer quoteVisible={quoteVisible} setQuoteVisible={setQuoteVisible} />
+      {quoteVisible && <Quote showQuote={showQuote} hideQuote={hideQuote} />}
+      {playerVisible && <MusicPlayer showPlayer={showPlayer} hidePlayer={hidePlayer} />}
+      <Footer quoteVisible={quoteVisible} playerVisible={playerVisible} toggleQuote={toggleQuote} togglePlayer={togglePlayer} />
     </>
   );
 };

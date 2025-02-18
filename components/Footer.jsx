@@ -6,8 +6,8 @@ import { VscWarning } from "react-icons/vsc";
 import { VscCheckAll } from "react-icons/vsc";
 import { VscBell } from "react-icons/vsc";
 import { VscRemote } from "react-icons/vsc";
-
-const Footer = ({ quoteVisible, setQuoteVisible }) => {
+import { VscMusic } from "react-icons/vsc";
+const Footer = ({ quoteVisible, playerVisible, toggleQuote, togglePlayer }) => {
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
@@ -33,7 +33,14 @@ const Footer = ({ quoteVisible, setQuoteVisible }) => {
       <div className={styles.container}>
         <div
           className={styles.section}
-          onClick={() => setQuoteVisible(!quoteVisible)}
+          onClick={() => togglePlayer()}
+        >
+          <VscMusic className={styles.qicon} />
+          <p>Music Player</p>
+        </div>
+        <div
+          className={styles.section}
+          onClick={() => toggleQuote()}
         >
           <VscQuote className={styles.qicon} />
           <p>Quote of the day</p>

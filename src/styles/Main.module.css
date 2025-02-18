@@ -17,7 +17,6 @@
   overflow: hidden;
 }
 
-/* Content is layered on top, left-aligned, and adapts to screen size */
 .content {
   position: relative;
   z-index: 2;

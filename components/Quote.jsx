@@ -5,7 +5,7 @@ import { useSelectedQuoteThemes } from "../context/selectedQuoteThemes";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-const Quote = ({ setQuoteVisible }) => {
+const Quote = ({ showQuote, hideQuote }) => {
     const router = useRouter();
     const [quote, setQuote] = useState({ content: "", author: "" });
 
@@ -55,7 +55,7 @@ const Quote = ({ setQuoteVisible }) => {
                     <Link href="/settings">
                         <VscSettingsGear className={styles.icon} />
                     </Link>
-                    <VscClose onClick={() => setQuoteVisible(false)} className={styles.closeIcon} />
+                    <VscClose onClick={() => hideQuote()} className={styles.closeIcon} />
                 </div>
             </div>
             <div className={styles.content}>
@@ -77,7 +77,7 @@ const Quote = ({ setQuoteVisible }) => {
                     </button>
                     <button
                         className={styles.sbutton}
-                        onClick={() => setQuoteVisible(false)}
+                        onClick={() => hideQuote()}
                     >
                         Dismiss
                     </button>
