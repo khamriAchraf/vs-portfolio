@@ -1,182 +1,216 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import styles from '@/styles/MusicPlayer.module.css';
+import {
+    VscClose,
+    VscDebugPause,
+    VscDebugStart,
+    VscDebugStepBack,
+    VscDebugStepOver,
+    VscSettingsGear,
+} from 'react-icons/vsc';
+import { MdVolumeUp, MdVolumeDown, MdVolumeOff } from 'react-icons/md';
+import Link from 'next/link';
 
 const tracks = [
-  { name: 'The Stage is Set', src: '/music/tft.mp3' },
-  { name: 'The Very Very Very Strongest', src: '/music/onepiece.mp3' },
+    { name: 'The Stage is Set', src: '/music/tft.mp3', tag: 'gaming' },
+    { name: 'The Very Very Very Strongest', src: '/music/onepiece.mp3', tag: 'gaming' },
+    { name: 'Orange Sea', author: 'Hoogway', src: '/music/lofi1.mp3', tag: 'lofi' },
+    { name: 'Albatross', author: 'Blue Fox', src: '/music/lofi2.mp3', tag: 'lofi' },
+    { name: 'Young Again', author: 'xander.', src: '/music/lofi3.mp3', tag: 'lofi' },
+    { name: 'Frozen Snow', author: 'A[way]', src: '/music/lofi4.mp3', tag: 'lofi' },
 ];
 
-export default function MusicPlayer() {
-  const audioRef = useRef(null);
-  const canvasRef = useRef(null);
-  const audioCtxRef = useRef(null);
-  const visualizerInitialized = useRef(false);
+export default function MusicPlayer({ playerVisible, togglePlayer }) {
+    // Load selectedMusicTag from localStorage, default to 'lofi'
+    const [selectedTag, setSelectedTag] = useState('lofi');
+    useEffect(() => {
+        const storedTag = localStorage.getItem('selectedMusicTag') || 'lofi';
+        setSelectedTag(storedTag);
+    }, []);
 
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(1);
-  const [shuffle, setShuffle] = useState(false);
+    // Memoize filteredTracks so its reference doesn't change every render.
+    const filteredTracks = useMemo(
+        () => tracks.filter(track => track.tag === selectedTag),
+        [selectedTag]
+    );
 
-  const togglePlay = async () => {
-    if (!audioRef.current) return;
+    const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [volume, setVolume] = useState(0.1);
+    const [isMuted, setIsMuted] = useState(false);
+    const [progress, setProgress] = useState(0);
 
-    if (!visualizerInitialized.current) {
-      initVisualizer();
-      visualizerInitialized.current = true;
-    }
+    const audioRef = useRef(null);
 
-    if (audioCtxRef.current && audioCtxRef.current.state === 'suspended') {
-      await audioCtxRef.current.resume();
-    }
+    useEffect(() => {
+        if (filteredTracks.length > 0) {
+            const randomIndex = Math.floor(Math.random() * filteredTracks.length);
+            setCurrentTrackIndex(randomIndex);
+        }
+    }, [selectedTag, filteredTracks.length]);
 
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current.play();
-      setIsPlaying(true);
-    }
-  };
-
-  const nextTrack = () => {
-    let nextIndex;
-    if (shuffle) {
-      do {
-        nextIndex = Math.floor(Math.random() * tracks.length);
-      } while (nextIndex === currentTrackIndex && tracks.length > 1);
-    } else {
-      nextIndex = (currentTrackIndex + 1) % tracks.length;
-    }
-    setCurrentTrackIndex(nextIndex);
-  };
-
-  const prevTrack = () => {
-    let prevIndex;
-    if (shuffle) {
-      do {
-        prevIndex = Math.floor(Math.random() * tracks.length);
-      } while (prevIndex === currentTrackIndex && tracks.length > 1);
-    } else {
-      prevIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
-    }
-    setCurrentTrackIndex(prevIndex);
-  };
-
-  const toggleShuffle = () => {
-    setShuffle(!shuffle);
-  };
-
-  const handleVolumeChange = (e) => {
-    const newVolume = parseFloat(e.target.value);
-    setVolume(newVolume);
-    if (audioRef.current) {
-      audioRef.current.volume = newVolume;
-    }
-  };
-
-  const selectTrack = (index) => {
-    setCurrentTrackIndex(index);
-    setIsPlaying(true);
-  };
-
-  const handleEnded = () => {
-    nextTrack();
-  };
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.src = tracks[currentTrackIndex].src;
-      if (isPlaying) {
-        audioRef.current.play();
-      }
-    }
-  }, [currentTrackIndex]);
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = volume;
-    }
-  }, [volume]);
-
-  // Initialize the AudioContext and visualizer.
-  const initVisualizer = () => {
-    if (!audioRef.current || !canvasRef.current) return;
-
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    audioCtxRef.current = audioCtx;
-
-    const analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 256;
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-
-    const source = audioCtx.createMediaElementSource(audioRef.current);
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-
-    const canvas = canvasRef.current;
-    const canvasCtx = canvas.getContext('2d');
-
-    const draw = () => {
-      requestAnimationFrame(draw);
-      analyser.getByteFrequencyData(dataArray);
-
-      canvasCtx.fillStyle = '#000';
-      canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
-
-      const barWidth = canvas.width / bufferLength;
-      let x = 0;
-      for (let i = 0; i < bufferLength; i++) {
-        const barHeight = dataArray[i] / 2;
-        canvasCtx.fillStyle = '#0f0';
-        canvasCtx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
-        x += barWidth + 1;
-      }
+    const togglePlay = () => {
+        if (!audioRef.current) return;
+        if (isPlaying) {
+            audioRef.current.pause();
+            setIsPlaying(false);
+        } else {
+            audioRef.current.play();
+            setIsPlaying(true);
+        }
     };
-    draw();
-  };
 
-  return (
-    <div className={styles.player}>
-      <canvas ref={canvasRef} className={styles.visualizer} />
+    const nextTrack = () => {
+        const storedTag = localStorage.getItem('selectedMusicTag') || 'lofi';
+        setSelectedTag(storedTag);
+        if (filteredTracks.length > 0) {
+            let nextIndex;
+            do {
+                nextIndex = Math.floor(Math.random() * filteredTracks.length);
+            } while (nextIndex === currentTrackIndex && filteredTracks.length > 1);
+            setCurrentTrackIndex(nextIndex);
+        }
+    };
 
-      <div className={styles.controls}>
-        <button onClick={prevTrack}>Prev</button>
-        <button onClick={togglePlay}>
-          {isPlaying ? 'Pause' : 'Play'}
-        </button>
-        <button onClick={nextTrack}>Next</button>
-        <button
-          onClick={toggleShuffle}
-          className={shuffle ? styles.active : ''}
-        >
-          Shuffle
-        </button>
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          value={volume}
-          onChange={handleVolumeChange}
-        />
-      </div>
+    const prevTrack = () => {
+        if (filteredTracks.length > 0) {
+            const prevIndex = (currentTrackIndex - 1 + filteredTracks.length) % filteredTracks.length;
+            setCurrentTrackIndex(prevIndex);
+        }
+    };
 
-      <div className={styles.queue}>
-        {tracks.map((track, index) => (
-          <div
-            key={index}
-            className={`${styles.track} ${
-              index === currentTrackIndex ? styles.activeTrack : ''
-            }`}
-            onClick={() => selectTrack(index)}
-          >
-            {track.name}
-          </div>
-        ))}
-      </div>
+    const increaseVolume = () => {
+        const newVolume = Math.min(volume + 0.1, 1);
+        setVolume(newVolume);
+        if (audioRef.current) {
+            audioRef.current.volume = newVolume;
+            if (isMuted && newVolume > 0) {
+                audioRef.current.muted = false;
+                setIsMuted(false);
+            }
+        }
+    };
 
-      <audio ref={audioRef} onEnded={handleEnded} />
-    </div>
-  );
+    const decreaseVolume = () => {
+        const newVolume = Math.max(volume - 0.1, 0);
+        setVolume(newVolume);
+        if (audioRef.current) {
+            audioRef.current.volume = newVolume;
+            if (newVolume === 0) {
+                audioRef.current.muted = true;
+                setIsMuted(true);
+            }
+        }
+    };
+
+    const toggleMute = () => {
+        if (!audioRef.current) return;
+        if (isMuted) {
+            audioRef.current.muted = false;
+            setIsMuted(false);
+        } else {
+            audioRef.current.muted = true;
+            setIsMuted(true);
+        }
+    };
+
+    const handleEnded = () => {
+        nextTrack();
+    };
+
+    const updateProgress = () => {
+        if (audioRef.current && audioRef.current.duration) {
+            const percentage =
+                (audioRef.current.currentTime / audioRef.current.duration) * 100;
+            setProgress(percentage);
+        }
+    };
+
+    const handleProgressClick = (e) => {
+        if (!audioRef.current || !audioRef.current.duration) return;
+        const rect = e.currentTarget.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const newTime = (clickX / rect.width) * audioRef.current.duration;
+        audioRef.current.currentTime = newTime;
+    };
+
+    useEffect(() => {
+        if (audioRef.current && filteredTracks.length > 0) {
+            // Only update the src if it has actually changed.
+            const newSrc = filteredTracks[currentTrackIndex].src;
+            if (audioRef.current.src !== newSrc) {
+                audioRef.current.src = newSrc;
+            }
+            if (isPlaying) {
+                audioRef.current.play();
+            }
+        }
+    }, [currentTrackIndex, filteredTracks, isPlaying]);
+
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.volume = volume;
+        }
+    }, [volume]);
+
+    return (
+        <div className={`${styles.player} ${playerVisible ? styles.visible : styles.hidden}`}>
+            <div className={styles.titleContainer}>
+                <p className={styles.title}>Music Player</p>
+                <div className={styles.content}>
+                    <Link href="/settings?section=music-player">
+                        <VscSettingsGear className={styles.icon} />
+                    </Link>
+                    <VscClose onClick={() => togglePlayer()} className={styles.closeIcon} />
+                </div>
+            </div>
+            <div className={styles.controls}>
+                <div className={styles.actionButtons}>
+                    <button onClick={prevTrack} className={styles.actionButton}>
+                        <VscDebugStepBack />
+                    </button>
+                    <button onClick={togglePlay} className={styles.actionButton}>
+                        {isPlaying ? <VscDebugPause /> : <VscDebugStart />}
+                    </button>
+                    <button onClick={nextTrack} className={styles.actionButton}>
+                        <VscDebugStepOver />
+                    </button>
+
+                </div>
+
+
+                <div className={styles.volumeControls}>
+                    <button onClick={decreaseVolume} className={styles.actionButton}>
+                        <MdVolumeDown />
+                    </button>
+                    <div>{(volume * 10).toFixed(0)}</div>
+                    <button onClick={increaseVolume} className={styles.actionButton}>
+                        <MdVolumeUp />
+                    </button>
+                    <button
+                        onClick={toggleMute}
+                        className={`${styles.muteButton} ${isMuted && styles.muted}`}
+                    >
+                        <MdVolumeOff />
+                    </button>
+                </div>
+            </div>
+
+            <div className={styles.currentTrack}>
+                <div>{filteredTracks.length > 0 && filteredTracks[currentTrackIndex].name}  -  {filteredTracks[currentTrackIndex].author}</div>
+
+                <div className={styles.tag}>{selectedTag}</div>
+            </div>
+
+            <div className={styles.progressBar} onClick={handleProgressClick}>
+                <div className={styles.progress} style={{ width: `${progress}%` }} />
+            </div>
+
+            <audio
+                ref={audioRef}
+                onTimeUpdate={updateProgress}
+                onEnded={handleEnded}
+            />
+        </div>
+    );
 }

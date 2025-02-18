@@ -17,8 +17,10 @@ const initialFs = {
 };
 
 const Terminal = () => {
+  // Each history entry now has a unique id.
   const [history, setHistory] = useState([
     {
+      id: Date.now(),
       command: "",
       output:
         "Welcome to the coolest terminal ever! 😎\n\n" +
@@ -195,7 +197,8 @@ const Terminal = () => {
         if (args.length === 0) return "Usage: rm [file/directory]";
         const target = args[0];
         const currentDir = getDirFromPath(cwd);
-        if (!currentDir) return `rm: cannot remove '${cwd}': No such directory`;
+        if (!currentDir)
+          return `rm: cannot remove '${cwd}': No such directory`;
         if (!currentDir.children[target]) {
           return `rm: cannot remove '${target}': No such file or directory`;
         }
@@ -211,10 +214,13 @@ const Terminal = () => {
       },
     },
     cat: {
-      description: "Displays file contents.",
+      description:
+        "Displays file contents",
       usage: "cat [file]",
       exec: (args) => {
-        if (args.length === 0) return "Usage: cat [file]";
+        if (args.length === 0) {
+          return { type: "gif", src: "/cat.gif" };
+        }
         const target = args[0];
         const currentDir = getDirFromPath(cwd);
         if (!currentDir)
@@ -222,7 +228,7 @@ const Terminal = () => {
         if (currentDir.children[target]) {
           const item = currentDir.children[target];
           if (item.type === "file") {
-            return item.content || "";
+            return { type: "gif", src: "/cat.gif" };;
           }
           return `cat: ${target}: Is a directory`;
         }
@@ -240,12 +246,14 @@ const Terminal = () => {
     exit: {
       description: "Exits the terminal.",
       usage: "exit",
-      exec: () => "exit: Closing terminal is not allowed in the browser.",
+      exec: () =>
+        "exit: Closing terminal is not allowed in the browser.",
     },
     history: {
       description: "Displays command history.",
       usage: "history",
-      exec: () => history.map((entry) => entry.command).join("\n"),
+      exec: () =>
+        history.map((entry) => entry.command).join("\n"),
     },
     random: {
       description: "Generates a random number between 1 and 100.",
@@ -256,7 +264,6 @@ const Terminal = () => {
       description: "Displays a fancy banner.",
       usage: "banner",
       exec: () => `
-
 ▄▀█ █▀▀ █░█ █▀█ ▄▀█ █▀▀   █▄▀ █░█ ▄▀█ █▀▄▀█ █▀█ █
 █▀█ █▄▄ █▀█ █▀▄ █▀█ █▀░   █░█ █▀█ █▀█ █░▀░█ █▀▄ █
       `,
@@ -283,7 +290,8 @@ const Terminal = () => {
 
   const commands = { ...baseCommands };
   commands.help = {
-    description: "Lists all commands or shows details for a specific command.",
+    description:
+      "Lists all commands or shows details for a specific command.",
     usage: "help [command]",
     exec: (args) => {
       if (args.length === 0) {
@@ -311,17 +319,14 @@ const Terminal = () => {
     e.preventDefault();
     const input = command.trim();
     if (!input) return;
-
     if (input === "clear") {
       setHistory([]);
       setCommand("");
       return;
     }
-
     const parts = input.split(" ").filter(Boolean);
     const cmd = parts[0];
     const args = parts.slice(1);
-
     let output;
     if (commands[cmd]) {
       output = commands[cmd].exec(args);
@@ -329,24 +334,40 @@ const Terminal = () => {
       output = `command not found: ${cmd}`;
     }
 
-    setHistory([...history, { command: input, output }]);
+    const entryId = Date.now() + Math.random();
+    const newEntry = { id: entryId, command: input, output };
+    setHistory([...history, newEntry]);
     setCommand("");
+
+    if (typeof output === "object" && output !== null && output.type === "gif") {
+      setTimeout(() => {
+        setHistory((curr) => curr.filter((entry) => entry.id !== entryId));
+      }, 6000);
+    }
   };
 
   return (
     <div className={styles.terminal}>
       <div className={styles.history}>
-        {history.map((entry, index) => (
-          <div key={index}>
+        {history.map((entry) => (
+          <div key={entry.id}>
             <div className={styles.prompt}>
               user@linux:{cwd}$ {entry.command}
             </div>
             <div className={styles.output}>
-              {String(entry.output)
-                .split("\n")
-                .map((line, i) => (
-                  <div key={i}>{line}</div>
-                ))}
+              {typeof entry.output === "object" &&
+                entry.output !== null &&
+                entry.output.type === "gif" ? (
+                <img
+                  src={entry.output.src}
+                  alt="cat"
+                  className={styles.catGif}
+                />
+              ) : (
+                String(entry.output)
+                  .split("\n")
+                  .map((line, i) => <div key={i}>{line}</div>)
+              )}
             </div>
           </div>
         ))}

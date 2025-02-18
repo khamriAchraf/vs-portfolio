@@ -1,0 +1,10 @@
+
+
+.select {
+  margin-left: 10px;
+  padding: 5px;
+  background: var(--article-bg);
+  color: var(--text-color);
+  border: none;
+  border-radius: 3px;
+}

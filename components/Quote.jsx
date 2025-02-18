@@ -52,7 +52,7 @@ const Quote = ({ showQuote, hideQuote }) => {
             <div className={styles.titleContainer}>
                 <p className={styles.title}>Quote of the day</p>
                 <div className={styles.content}>
-                    <Link href="/settings">
+                    <Link href="/settings?section=quote-of-the-day">
                         <VscSettingsGear className={styles.icon} />
                     </Link>
                     <VscClose onClick={() => hideQuote()} className={styles.closeIcon} />

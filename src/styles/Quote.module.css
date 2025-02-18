@@ -5,7 +5,7 @@
   border: 1px solid var(--accent-color);
   padding: 1rem;
   box-shadow: rgba(0, 0, 0, 0.36) 0px 0px 8px 2px;
-  background-color: var(--article-bg);
+  background-color: var(--main-bg);
   border-radius: 4px;
   max-width: 500px;
   z-index: 10;
@@ -36,13 +36,13 @@
 }
 
 .closeIcon {
-  transform: scale(1.6);
+  transform: scale(1.2);
   margin-left: 0.5rem;
   cursor: pointer;
 }
 
 .button {
-  background: var(--accent-color);
+  background: var(--button-bg);
   color: var(--button-text);
   cursor: pointer;
   padding: 0.15rem 0.5rem;
@@ -53,6 +53,7 @@
 .btns {
   margin-top: 1.5rem;
   display: flex;
+  gap: 10px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -60,11 +61,12 @@
 
 .sbutton {
   background: var(--article-bg);
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-color);
   cursor: pointer;
-  padding: 0.5rem 1rem;
+  padding: 0.15rem 0.5rem;
   font-size: 0.9rem;
   border: none;
+  margin-left: 10px;
 }
 
 .titleContainer {
