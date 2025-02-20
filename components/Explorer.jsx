@@ -6,6 +6,8 @@ import { FaCss3 } from "react-icons/fa";
 import { FaJs } from "react-icons/fa";
 import { VscChevronRight, VscMarkdown } from "react-icons/vsc";
 import Link from "next/link";
+import { VscJson } from "react-icons/vsc";
+
 
 const explorerItems = [
   {
@@ -13,6 +15,12 @@ const explorerItems = [
     path: "/",
     Icon: FaReact,
     class: styles.react
+  },
+  {
+    name: "resume.json",
+    path: "/resume",
+    Icon: VscJson,
+    class: styles.json
   },
   {
     name: "about.html",

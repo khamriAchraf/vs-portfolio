@@ -61,6 +61,11 @@
     font-size: 1rem;
   }
 
+  .json {
+    color: #cbcb30;
+    font-size: 1rem;
+  }
+
   .html {
     color: #e44d26;
     font-size: 1rem;
