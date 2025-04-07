@@ -5,6 +5,7 @@ const availableTags = [
     'gaming',
     'lofi',
     'classical',
+    'opera',
     'soft rock',
     'retro'
 ];

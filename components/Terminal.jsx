@@ -338,12 +338,6 @@ const Terminal = () => {
     const newEntry = { id: entryId, command: input, output };
     setHistory([...history, newEntry]);
     setCommand("");
-
-    if (typeof output === "object" && output !== null && output.type === "gif") {
-      setTimeout(() => {
-        setHistory((curr) => curr.filter((entry) => entry.id !== entryId));
-      }, 6000);
-    }
   };
 
   return (

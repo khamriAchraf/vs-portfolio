@@ -18,6 +18,11 @@ const tracks = [
     { name: 'Albatross', author: 'Blue Fox', src: '/music/lofi2.mp3', tag: 'lofi' },
     { name: 'Young Again', author: 'xander.', src: '/music/lofi3.mp3', tag: 'lofi' },
     { name: 'Frozen Snow', author: 'A[way]', src: '/music/lofi4.mp3', tag: 'lofi' },
+    { name: 'Canon in D', author:'Johann Pachelbel', src: '/music/canon.mp3', tag: 'classical' },
+    { name: "Mariage d'amour", author:'Paul de Senneville', src: '/music/amour.mp3', tag: 'classical' },
+    { name: "Swan Lake", author:'Pyotr Ilyich Tchaikovsky', src: '/music/swan.mp3', tag: 'classical' },
+    { name: "Nessun Dorma", author:'Fernando Varela', src: '/music/nessun.mp3', tag: 'opera' },
+    { name: "Con te partirò", author:'Sarah Brightman, Andrea Bocelli', src: '/music/conn.mp3', tag: 'opera' },
 ];
 
 export default function MusicPlayer({ playerVisible, togglePlayer }) {
