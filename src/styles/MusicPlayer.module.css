@@ -69,6 +69,7 @@
     margin-top: 20px;
     display: flex;
     justify-content: start;
+    align-items: center;
     gap: 10px;
   }
 
@@ -114,7 +115,7 @@
 
 .progressBar {
   width: 100%;
-  height: 1px;
+  height: 4px;
   background: var(--explorer-bg);
   border-radius: 0;
   cursor: pointer;
@@ -174,4 +175,20 @@
   transform: scale(1.2);
   margin-left: 0.5rem;
   cursor: pointer;
+}
+
+.timeInfo {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+}
+
+.track:hover {
+  background-color: var(--accent-color);
+  color: var(--main-bg);
+}
+
+.activeTrack {
+  background-color: var(--accent-color);
+  color: var(--main-bg);
 }

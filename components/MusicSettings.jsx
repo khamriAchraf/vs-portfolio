@@ -6,8 +6,7 @@ const availableTags = [
     'lofi',
     'classical',
     'opera',
-    'soft rock',
-    'retro'
+    'all'
 ];
 
 export default function MusicSettings({ onTagChange }) {

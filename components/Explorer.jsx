@@ -17,14 +17,8 @@ const explorerItems = [
     class: styles.react
   },
   {
-    name: "resume.json",
+    name: "resume.html",
     path: "/resume",
-    Icon: VscJson,
-    class: styles.json
-  },
-  {
-    name: "about.html",
-    path: "/about",
     Icon: FaHtml5,
     class: styles.html
   },

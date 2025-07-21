@@ -24,6 +24,7 @@
   padding: 0 0.2rem;
   cursor: pointer;
   font-family: "Source Sans Pro", sans-serif;
+  position: relative;
 }
 
 .remoteSection {
@@ -55,6 +56,91 @@
 .qicon {
   margin-right: 0.2rem;
   opacity: 0.5;
+}
+
+.musicSection {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-right: 26px; /* Make room for the play button */
+  position: relative;
+  overflow: hidden;
+}
+
+.musicSection.playing .qicon {
+  color: var(--accent-color);
+  opacity: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.wave {
+  display: none;
+}
+
+.musicSection.playing .wave {
+  display: block;
+  position: absolute;
+  border: 1px solid var(--accent-color);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  opacity: 0;
+  z-index: 0;
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: wave 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.musicSection.playing .wave:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.musicSection.playing .wave:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes wave {
+  0% {
+    transform: translateY(-50%) scale(0.5);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-50%) scale(2);
+    opacity: 0;
+  }
+}
+
+/* Play/Pause button */
+.playPauseButton {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.playPauseButton:hover {
+  opacity: 1;
+}
+
+.playing .playPauseButton {
+  color: var(--accent-color);
+  opacity: 0.8;
+}
+
+.playing .playPauseButton:hover {
+  opacity: 1;
 }
 
 @media screen and (max-width: 600px) {

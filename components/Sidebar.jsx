@@ -14,16 +14,6 @@ const tabsItemsTop = [
         path: '/',
     },
     {
-        id: 7,
-        Icon: PiReadCvLogoLight,
-        path: '/resume',
-    },
-    {
-        id: 2,
-        Icon: VscGithubAlt,
-        path: '/github',
-    },
-    {
         id: 3,
         Icon: VscCode,
         path: '/projects',
@@ -32,6 +22,12 @@ const tabsItemsTop = [
         id: 4,
         Icon: VscMention,
         path: '/contact',
+    },
+    
+    {
+        id: 2,
+        Icon: VscGithubAlt,
+        path: '/github',
     },
     {
         id: 5,
@@ -48,7 +44,7 @@ const tabsItemsTop = [
 const tabsItemsBottom = [{
     id: 98,
     Icon: VscAccount,
-    path: '/about',
+    path: '/resume',
 },
 {
     id: 99,
@@ -102,4 +98,4 @@ const Sidebar = () => {
     )
 }
 
-export default Sidebar
+export default Sidebar;

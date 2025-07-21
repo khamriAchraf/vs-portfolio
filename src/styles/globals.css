@@ -25,3 +25,24 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+:root {
+  --deg: 1;
+  --x: -50%;
+  --y: -50%;
+  --speed: 150ms;
+}
+
+@-webkit-keyframes wobble {
+  to {
+    filter: hue-rotate(360deg);
+    transform: translate(var(--x), var(--y)) rotate(360deg);
+  }
+}
+
+@keyframes wobble {
+  to {
+    filter: hue-rotate(360deg);
+    transform: translate(var(--x), var(--y)) rotate(360deg);
+  }
+}

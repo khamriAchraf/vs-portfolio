@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Titlebar } from "./Titlebar";
 import Sidebar from "./Sidebar";
+import TimeMachineModal from "./TimeMachineModal";
 import Footer from "./Footer";
 import { useRouter } from "next/router";
 import styles from "@/styles/Layout.module.css";
@@ -53,6 +54,7 @@ const Layout = ({ children }) => {
   const router = useRouter();
   const [quoteVisible, setQuoteVisible] = useState(true);
   const [playerVisible, setPlayerVisible] = useState(false);
+  const [timeMachineVisible, setTimeMachineVisible] = useState(false);
 
   const showQuote = () => {
     setQuoteVisible(true);
@@ -71,6 +73,9 @@ const Layout = ({ children }) => {
   const hidePlayer = () => {
     setPlayerVisible(false);
   };
+
+  const showTimeMachine = () => setTimeMachineVisible(true);
+  const hideTimeMachine = () => setTimeMachineVisible(false);
 
   const togglePlayer = () => {
     playerVisible ? hidePlayer() : showPlayer();
@@ -102,7 +107,8 @@ const Layout = ({ children }) => {
       </div>
       {quoteVisible && <Quote showQuote={showQuote} hideQuote={hideQuote} />}
       <MusicPlayer playerVisible={playerVisible} togglePlayer={togglePlayer}  />
-      <Footer quoteVisible={quoteVisible} playerVisible={playerVisible} toggleQuote={toggleQuote} togglePlayer={togglePlayer} />
+      <Footer quoteVisible={quoteVisible} playerVisible={playerVisible} toggleQuote={toggleQuote} togglePlayer={togglePlayer} toggleTimeMachine={showTimeMachine} />
+      {timeMachineVisible && <TimeMachineModal onClose={hideTimeMachine} />}
     </>
   );
 };
