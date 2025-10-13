@@ -21,28 +21,34 @@ export default function Resume() {
             <div className={styles.itemHeader}>
               <div>
                 <h3>Software Engineer</h3>
-                <p>DXC Technology, 2024 -</p>
+                <p>DXC Technology, 2024 - 2025</p>
               </div>
               <Link href="https://www.dxc.com/" target="_blank">
                 <img src="/dxc.png" alt="dxc" className={styles.image} />
               </Link>
             </div>
+            <p>
+              Contributed to the development of RADIANCE, a large-scale policy
+              administration platform used by ASR, a leading Dutch insurance
+              company, for managing life and disability insurance products.
+            </p>
             <ul>
               <li>
-                Gather and document business and technical requirements with
-                stakeholders
+                Contributed to the RADIANCE parser and lexer, adding support for
+                new domain-specific keywords.
               </li>
               <li>
-                Analyze and review existing architecture to identify
-                improvements.
+                Participated in the implementation of concurrent database access
+                for improved performance.
               </li>
               <li>
-                Evolve software architecture to meet emerging client needs.
+                Fixed bugs and added features to the developer graphical
+                interface, an Eclipse plugin used by the client.
               </li>
               <li>
-                Participate with development teams in integrating architecture.
+                Contributed to three major migrations: from CVS to Git, Maven 1
+                to Maven 3, and Hudson to Jenkins.
               </li>
-              <li> Design and implement unit, functional and SMOKE tests.</li>
             </ul>
           </div>
         </div>
@@ -51,7 +57,7 @@ export default function Resume() {
           <div className={styles.itemContent}>
             <div className={styles.itemHeader}>
               <div>
-                <h3>Software / DevOps Engineer</h3>
+                <h3>DevOps Engineer</h3>
                 <p>Carrefour France, 2023 - 2024</p>
               </div>
               <Link href="https://carrefour.fr/" target="_blank">
@@ -62,32 +68,22 @@ export default function Resume() {
                 />
               </Link>
             </div>
-
+            <p>
+              Member of the vPOD team, responsible for handling cloud
+              infrastructure requests such as new tenant provisioning,
+              configuration updates, and environment setup, all managed through
+              GitOps workflows.
+            </p>
             <ul>
               <li>
-                Participated in a large scale migration effort of all Carrefour
-                codebases from Bitbucket to GitLab, involving significant
-                reengineering.
+                Maintained and updated APIs that handled requests as pull
+                requests to configuration repos.
               </li>
               <li>
-                Rewrote customer request management APIs, environments, and
-                cloud configurations.
+                Rewrote parts of the API during the migration from Bitbucket to
+                GitLab.
               </li>
-              <li>
-                Solved functional incompatibilities between the two platforms
-                (Bitbucket/Gitlab) with innovative solutions.
-              </li>
-              <li>
-                Designed and improved Jenkins CI/CD pipelines for API testing
-                and deployment on GCP.
-              </li>
-              <li>
-                Implemented automated unit and end-to-end tests with Ansible.
-              </li>
-              <li>
-                Created build, test, and deployment pipelines for GCP with
-                Jenkins.
-              </li>
+              <li>Set up CI/CD pipelines with Ansible, Jenkins, and GCP.</li>
             </ul>
           </div>
         </div>
@@ -96,25 +92,18 @@ export default function Resume() {
           <div className={styles.itemContent}>
             <div className={styles.itemHeader}>
               <div>
-                <h3>Web Developer</h3>
+                <h3>Software Engineer</h3>
                 <p>Agence de Développement du Digital, 2022 - 2023</p>
               </div>
               <Link href="https://www.add.gov.ma/" target="_blank">
                 <img src="/add.png" alt="add" className={styles.image} />
               </Link>
             </div>
+            <p>
+              Built an internal ticketing system to centralize service requests.
+            </p>
             <ul>
-              <li>
-                Gather and document business and technical requirements with
-                stakeholders.
-              </li>
-              <li>
-                Analyze and review existing architecture to identify
-                improvements.
-              </li>
-              <li>Move software architecture to meet emerging client needs.</li>
-              <li>Participate in design and testing with development teams.</li>
-              <li>Design and implement unit, functional, and SMOKE tests.</li>
+              <li>Developed the web app and deployed it on-premise.</li>
             </ul>
           </div>
         </div>
