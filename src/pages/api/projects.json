@@ -5,7 +5,7 @@
     "logo": "/medicon-icon.png",
     "description": "A platform for medical professionals to manage their practice, powered by AI.",
     "tags": ["next", "node", "mongodb", "tailwind", "react-query"],
-    "link": "https://app.medicon.ma/"
+    "link": "https://medicon-next-1p8ehwzl2-khamriachrafs-projects.vercel.app/login"
   },  
   {
     "id": 3,
@@ -28,6 +28,6 @@
     "logo": "/tftyk.svg",
     "description": "A Worldle inspired game for Teamfight Tactics. Guess the units by looking at the active traits.",
     "tags": ["next", "css-modules"],
-    "link": "https://tftyk.com/"
+    "link": "https://tftyk.achrafkhamri.com/"
   }
 ]
