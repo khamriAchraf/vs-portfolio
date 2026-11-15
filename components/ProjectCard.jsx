@@ -1,9 +1,10 @@
 import Image from 'next/image';
 
 import styles from '@/styles/ProjectCard.module.css';
-
+import { useTranslation } from "react-i18next";
 
 const ProjectCard = ({ project }) => {
+  const { t } = useTranslation();
   return (
     <a
       href={project.link}
@@ -15,7 +16,7 @@ const ProjectCard = ({ project }) => {
         <div className={styles.logoWrapper}>
           <Image
             src={project.logo}
-            alt={`${project.title} logo`}
+            alt={t("titleLogo", "{{title}} logo", { title: project.title })}
             width={24}
             height={24}
             className={styles.logo}

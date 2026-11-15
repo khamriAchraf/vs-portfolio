@@ -1,9 +1,12 @@
 import React from 'react'
+import Resume from '../../components/Resume'
 
-const About = () => {
-  return (
-    <div>about</div>
-  )
+const ResumePage = () => {
+    return (
+        <div>
+            <Resume />
+        </div>
+    )
 }
 
-export default About
+export default ResumePage

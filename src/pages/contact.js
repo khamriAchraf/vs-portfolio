@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import ContactCode from '../../components/ContactCode';
 import styles from '@/styles/ContactPage.module.css';
+import { useTranslation } from "react-i18next";
 
 const ContactPage = () => {
+    const { t } = useTranslation();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [subject, setSubject] = useState('');
@@ -29,15 +31,15 @@ const ContactPage = () => {
     return (
       <div className={styles.container}>
         <div>
-          <h3 className={styles.heading}>Reach Out Via Socials</h3>
+          <h3 className={styles.heading}>{t("reachOutViaSocials", "Reach Out Via Socials")}</h3>
           <ContactCode />
         </div>
         <div>
-          <h3 className={styles.heading}>Or Fill Out This Form</h3>
+          <h3 className={styles.heading}>{t("orFillOutThisForm", "Or Fill Out This Form")}</h3>
           <form className={styles.form} onSubmit={submitForm}>
             <div className={styles.flex}>
               <div>
-                <label htmlFor="name">Name</label>
+                <label htmlFor="name">{t("name", "Name")}</label>
                 <input
                   type="text"
                   name="name"
@@ -48,7 +50,7 @@ const ContactPage = () => {
                 />
               </div>
               <div>
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">{t("email", "Email")}</label>
                 <input
                   type="email"
                   name="email"
@@ -60,7 +62,7 @@ const ContactPage = () => {
               </div>
             </div>
             <div>
-              <label htmlFor="name">Subject</label>
+              <label htmlFor="name">{t("subject", "Subject")}</label>
               <input
                 type="text"
                 name="subject"
@@ -71,7 +73,7 @@ const ContactPage = () => {
               />
             </div>
             <div>
-              <label htmlFor="message">Message</label>
+              <label htmlFor="message">{t("message", "Message")}</label>
               <textarea
                 name="message"
                 id="message"
@@ -81,7 +83,7 @@ const ContactPage = () => {
                 required
               ></textarea>
             </div>
-            <button type="submit">Submit</button>
+            <button type="submit">{t("submit", "Submit")}</button>
           </form>
         </div>
       </div>

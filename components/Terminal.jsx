@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "@/styles/Terminal.module.css";
 import { gigaAscii } from "../public/ascii";
+import { useTranslation } from "react-i18next";
 
 const initialFs = {
   "~": {
@@ -17,14 +18,16 @@ const initialFs = {
 };
 
 const Terminal = () => {
+  const { i18n: i18next } = useTranslation();
   // Each history entry now has a unique id.
   const [history, setHistory] = useState([
     {
       id: Date.now(),
       command: "",
-      output:
-        "Welcome to the coolest terminal ever! 😎\n\n" +
-        "Type 'help' to see all the commands available.\n\n",
+      output: i18next.t(
+        "welcomeMessage",
+        "Welcome to the coolest terminal ever! 😎\n\nType 'help' to see all the commands available.\n\n"
+      ),
     },
   ]);
   const [command, setCommand] = useState("");
@@ -50,32 +53,32 @@ const Terminal = () => {
 
   const baseCommands = {
     hello: {
-      description: "Say Hello!",
+      description: i18next.t('sayHello', 'Say Hello!'),
       usage: "hello",
-      exec: () => "Hey There!",
+      exec: () => i18next.t('heyThere', 'Hey There!'),
     },
     about: {
-      description: "Tells you about me.",
+      description: i18next.t('tellsYouAboutMe', 'Tells you about me.'),
       usage: "about",
       exec: () => "I am",
     },
     date: {
-      description: "Shows current date and time.",
+      description: i18next.t('showsCurrentDateAndTime', 'Shows current date and time.'),
       usage: "date",
       exec: () => new Date().toString(),
     },
     echo: {
-      description: "Repeats the provided text.",
+      description: i18next.t('repeatsTheProvidedText', 'Repeats the provided text.'),
       usage: "echo [text]",
       exec: (args) => args.join(" "),
     },
     pwd: {
-      description: "Prints the current working directory.",
+      description: i18next.t('printsTheCurrentWorkingDirectory', 'Prints the current working directory.'),
       usage: "pwd",
       exec: () => cwd,
     },
     cd: {
-      description: "Changes the current directory.",
+      description: i18next.t('changesTheCurrentDirectory', 'Changes the current directory.'),
       usage: "cd [directory]",
       exec: (args) => {
         if (args.length === 0) {
@@ -84,7 +87,7 @@ const Terminal = () => {
         }
         const target = args[0];
         if (target === "..") {
-          if (cwd === "~") return "cd: already at home directory";
+          if (cwd === "~") return i18next.t('cdAlreadyAtHomeDirectory', 'cd: already at home directory');
           const parts = cwd.split("/");
           parts.pop();
           const newCwd = parts.join("/") || "~";
@@ -101,12 +104,12 @@ const Terminal = () => {
           setCwd(newCwd);
           return "";
         } else {
-          return `cd: no such file or directory: ${target}`;
+          return i18next.t('cdNoSuchFileOrDirectoryTarget', 'cd: no such file or directory: {{target}}', { target });
         }
       },
     },
     ls: {
-      description: "Lists directory contents.",
+      description: i18next.t('listsDirectoryContents', 'Lists directory contents.'),
       usage: "ls",
       exec: () => {
         const currentDir = getDirFromPath(cwd);
@@ -120,37 +123,37 @@ const Terminal = () => {
             })
             .join("\n");
         }
-        return `ls: cannot access '${cwd}': No such directory`;
+        return i18next.t('lsCannotAccessCwdNoSuchDirectory', 'ls: cannot access \'{{cwd}}\': No such directory', { cwd });
       },
     },
     whoami: {
-      description: "Prints the current user.",
+      description: i18next.t('printsTheCurrentUser', 'Prints the current user.'),
       usage: "whoami",
       exec: () => "user",
     },
     man: {
-      description: "Shows manual for a command.",
+      description: i18next.t('showsManualForACommand', 'Shows manual for a command.'),
       usage: "man [command]",
       exec: (args) => {
-        if (args.length === 0) return "Usage: man [command]";
+        if (args.length === 0) return i18next.t('usageManCommand', 'Usage: man [command]');
         const cmdName = args[0];
         if (commands[cmdName] && !commands[cmdName].hidden) {
-          return `${cmdName}: ${commands[cmdName].usage}\n\n${commands[cmdName].description}`;
+          return i18next.t('cmdnameUsageDescription', '{{cmdName}}: {{usage}}\n\n{{description}}', { cmdName, usage: commands[cmdName].usage, description: commands[cmdName].description });
         }
-        return `No manual entry for ${cmdName}`;
+        return i18next.t('noManualEntryForCmdname', 'No manual entry for {{cmdName}}', { cmdName });
       },
     },
     mkdir: {
-      description: "Creates a new directory.",
+      description: i18next.t('createsANewDirectory', 'Creates a new directory.'),
       usage: "mkdir [directory]",
       exec: (args) => {
-        if (args.length === 0) return "Usage: mkdir [directory]";
+        if (args.length === 0) return i18next.t('usageMkdirDirectory', 'Usage: mkdir [directory]');
         const target = args[0];
         const currentDir = getDirFromPath(cwd);
         if (!currentDir)
-          return `mkdir: cannot access '${cwd}': No such directory`;
+          return i18next.t('mkdirCannotAccessCwdNoSuchDirectory', 'mkdir: cannot access \'{{cwd}}\': No such directory', { cwd });
         if (currentDir.children[target]) {
-          return `mkdir: cannot create directory '${target}': File exists`;
+          return i18next.t('mkdirCannotCreateDirectoryTargetFileExists', 'mkdir: cannot create directory \'{{target}}\': File exists', { target });
         }
         const newFs = cloneFs();
         const parts = cwd.split("/");
@@ -164,18 +167,18 @@ const Terminal = () => {
           children: {},
         };
         setFs(newFs);
-        return `Directory '${target}' created.`;
+        return i18next.t('directoryTargetCreated', 'Directory \'{{target}}\' created.', { target });
       },
     },
     touch: {
-      description: "Creates a new file or updates its timestamp.",
+      description: i18next.t('createsANewFileOrUpdatesItsTimestamp', 'Creates a new file or updates its timestamp.'),
       usage: "touch [file]",
       exec: (args) => {
-        if (args.length === 0) return "Usage: touch [file]";
+        if (args.length === 0) return i18next.t('usageTouchFile', 'Usage: touch [file]');
         const target = args[0];
         const currentDir = getDirFromPath(cwd);
         if (!currentDir)
-          return `touch: cannot access '${cwd}': No such directory`;
+          return i18next.t('touchCannotAccessCwdNoSuchDirectory', 'touch: cannot access \'{{cwd}}\': No such directory', { cwd });
         const newFs = cloneFs();
         const parts = cwd.split("/");
         let dir = newFs["~"];
@@ -183,24 +186,24 @@ const Terminal = () => {
           dir = dir.children[parts[i]];
         }
         if (dir.children[target]) {
-          return `touch: updated timestamp of '${target}'`;
+          return i18next.t('touchUpdatedTimestampOfTarget', 'touch: updated timestamp of \'{{target}}\'', { target });
         }
         dir.children[target] = { name: target, type: "file", content: "" };
         setFs(newFs);
-        return `File '${target}' created.`;
+        return i18next.t('fileTargetCreated', 'File \'{{target}}\' created.', { target });
       },
     },
     rm: {
-      description: "Removes a file or an empty directory.",
+      description: i18next.t('removesAFileOrAnEmptyDirectory', 'Removes a file or an empty directory.'),
       usage: "rm [file/directory]",
       exec: (args) => {
-        if (args.length === 0) return "Usage: rm [file/directory]";
+        if (args.length === 0) return i18next.t('usageRmFiledirectory', 'Usage: rm [file/directory]');
         const target = args[0];
         const currentDir = getDirFromPath(cwd);
         if (!currentDir)
-          return `rm: cannot remove '${cwd}': No such directory`;
+          return i18next.t('rmCannotRemoveCwdNoSuchDirectory', 'rm: cannot remove \'{{cwd}}\': No such directory', { cwd });
         if (!currentDir.children[target]) {
-          return `rm: cannot remove '${target}': No such file or directory`;
+          return i18next.t('rmCannotRemoveTargetNoSuchFileOrDirectory', 'rm: cannot remove \'{{target}}\': No such file or directory', { target });
         }
         const newFs = cloneFs();
         const parts = cwd.split("/");
@@ -210,12 +213,12 @@ const Terminal = () => {
         }
         delete dir.children[target];
         setFs(newFs);
-        return `${target} removed.`;
+        return i18next.t('targetRemoved', '{{target}} removed.', { target });
       },
     },
     cat: {
       description:
-        "Displays file contents",
+        i18next.t('displaysFileContents', 'Displays file contents'),
       usage: "cat [file]",
       exec: (args) => {
         if (args.length === 0) {
@@ -224,64 +227,61 @@ const Terminal = () => {
         const target = args[0];
         const currentDir = getDirFromPath(cwd);
         if (!currentDir)
-          return `cat: cannot access '${cwd}': No such directory`;
+          return i18next.t('catCannotAccessCwdNoSuchDirectory', 'cat: cannot access \'{{cwd}}\': No such directory', { cwd });
         if (currentDir.children[target]) {
           const item = currentDir.children[target];
           if (item.type === "file") {
             return { type: "gif", src: "/cat.gif" };;
           }
-          return `cat: ${target}: Is a directory`;
+          return i18next.t('catTargetIsADirectory', 'cat: {{target}}: Is a directory', { target });
         }
         if (target === "README.md") {
-          return "This is the README file. Welcome to the coolest terminal ever!";
+          return i18next.t('thisIsTheReadmeFileWelcomeToTheCoolestTerminalEver', 'This is the README file. Welcome to the coolest terminal ever!');
         }
-        return `cat: ${target}: No such file or directory.`;
+        return i18next.t('catTargetNoSuchFileOrDirectory', 'cat: {{target}}: No such file or directory.', { target });
       },
     },
     sudo: {
-      description: "Executes a command as superuser.",
+      description: i18next.t('executesACommandAsSuperuser', 'Executes a command as superuser.'),
       usage: "sudo [command]",
-      exec: (args) => "Permission denied: You are not in the sudoers file.",
+      exec: (args) => i18next.t('permissionDeniedYouAreNotInTheSudoersFile', 'Permission denied: You are not in the sudoers file.'),
     },
     exit: {
-      description: "Exits the terminal.",
+      description: i18next.t('exitsTheTerminal', 'Exits the terminal.'),
       usage: "exit",
       exec: () =>
-        "exit: Closing terminal is not allowed in the browser.",
+        i18next.t('exitClosingTerminalIsNotAllowedInTheBrowser', 'exit: Closing terminal is not allowed in the browser.'),
     },
     history: {
-      description: "Displays command history.",
+      description: i18next.t('displaysCommandHistory', 'Displays command history.'),
       usage: "history",
       exec: () =>
         history.map((entry) => entry.command).join("\n"),
     },
     random: {
-      description: "Generates a random number between 1 and 100.",
+      description: i18next.t('generatesARandomNumberBetween1And100', 'Generates a random number between 1 and 100.'),
       usage: "random",
       exec: () => Math.floor(Math.random() * 100) + 1,
     },
     banner: {
-      description: "Displays a fancy banner.",
+      description: i18next.t('displaysAFancyBanner', 'Displays a fancy banner.'),
       usage: "banner",
-      exec: () => `
-▄▀█ █▀▀ █░█ █▀█ ▄▀█ █▀▀   █▄▀ █░█ ▄▀█ █▀▄▀█ █▀█ █
-█▀█ █▄▄ █▀█ █▀▄ █▀█ █▀░   █░█ █▀█ █▀█ █░▀░█ █▀▄ █
-      `,
+      exec: () => i18next.t('key', '▄▀█ █▀▀ █░█ █▀█ ▄▀█ █▀▀   █▄▀ █░█ ▄▀█ █▀▄▀█ █▀█ █\r\n█▀█ █▄▄ █▀█ █▀▄ █▀█ █▀░   █░█ █▀█ █▀█ █░▀░█ █▀▄ █'),
     },
     joke: {
-      description: "Tells a random programming joke.",
+      description: i18next.t('tellsARandomProgrammingJoke', 'Tells a random programming joke.'),
       usage: "joke",
       exec: () => {
         const jokes = [
-          "Why do programmers prefer dark mode? Because light attracts bugs!",
-          "There are only 10 types of people in the world: those who understand binary and those who don't.",
-          "Debugging: Being the detective in a crime movie where you are also the murderer.",
+          i18next.t('whyDoProgrammersPreferDarkModeBecauseLightAttractsBugs', 'Why do programmers prefer dark mode? Because light attracts bugs!'),
+          i18next.t('thereAreOnly10TypesOfPeopleInTheWorldThoseWhoUnderstandBinaryAndThoseWhoDont', 'There are only 10 types of people in the world: those who understand binary and those who don\'t.'),
+          i18next.t('debuggingBeingTheDetectiveInACrimeMovieWhereYouAreAlsoTheMurderer', 'Debugging: Being the detective in a crime movie where you are also the murderer.'),
         ];
         return jokes[Math.floor(Math.random() * jokes.length)];
       },
     },
     gigachad: {
-      description: "A secret Easter egg command.",
+      description: i18next.t('aSecretEasterEggCommand', 'A secret Easter egg command.'),
       usage: "gigachad",
       exec: () => gigaAscii,
       hidden: true,
@@ -291,25 +291,25 @@ const Terminal = () => {
   const commands = { ...baseCommands };
   commands.help = {
     description:
-      "Lists all commands or shows details for a specific command.",
+      i18next.t('listsAllCommandsOrShowsDetailsForASpecificCommand', 'Lists all commands or shows details for a specific command.'),
     usage: "help [command]",
     exec: (args) => {
       if (args.length === 0) {
-        let result = "Available commands:\n";
+        let result = i18next.t('availableCommands', 'Available commands:\n');
         Object.keys(commands).forEach((key) => {
           if (commands[key].hidden) return;
-          result += `${key} - ${commands[key].description}\n`;
+          result += `${i18next.t('keyDescription', '{{key}} - {{description}}', { key, description: commands[key].description })}\n`;
         });
-        result += "clear - Clears the terminal screen.";
+        result += `${i18next.t('clearClearsTheTerminalScreen', 'clear - Clears the terminal screen.')}\n`;
         return result;
       } else {
         const commandName = args[0];
         if (commands[commandName] && !commands[commandName].hidden) {
-          return `${commandName}: ${commands[commandName].usage}\nDescription: ${commands[commandName].description}`;
+          return i18next.t('commandnameUsageDescriptionDescription', '{{commandName}}: {{usage}}\nDescription: {{description}}', { commandName, usage: commands[commandName].usage, description: commands[commandName].description });
         } else if (commandName === "clear") {
-          return "clear: Clears the terminal screen.";
+          return i18next.t('clearClearsTheTerminalScreen2', 'clear: Clears the terminal screen.');
         } else {
-          return `No help available for ${commandName}`;
+          return i18next.t('noHelpAvailableForCommandname', 'No help available for {{commandName}}', { commandName });
         }
       }
     },
@@ -331,7 +331,7 @@ const Terminal = () => {
     if (commands[cmd]) {
       output = commands[cmd].exec(args);
     } else {
-      output = `command not found: ${cmd}`;
+      output = i18next.t('commandNotFoundCmd', 'command not found: {{cmd}}', { cmd });
     }
 
     const entryId = Date.now() + Math.random();
@@ -345,16 +345,14 @@ const Terminal = () => {
       <div className={styles.history}>
         {history.map((entry) => (
           <div key={entry.id}>
-            <div className={styles.prompt}>
-              user@linux:{cwd}$ {entry.command}
-            </div>
+            <div className={styles.prompt}>{i18next.t('userlinuxcwdCommand', 'user@linux:{{cwd}}$ {{command}}', { cwd, command: entry.command })}</div>
             <div className={styles.output}>
               {typeof entry.output === "object" &&
                 entry.output !== null &&
                 entry.output.type === "gif" ? (
                 <img
                   src={entry.output.src}
-                  alt="cat"
+                  alt={i18next.t("catAlt", "cat")}
                   className={styles.catGif}
                 />
               ) : (
@@ -368,7 +366,7 @@ const Terminal = () => {
         <div ref={endRef} />
       </div>
       <form onSubmit={handleSubmit} className={styles.inputForm}>
-        <span className={styles.prompt}>user@linux:{cwd}$</span>
+        <span className={styles.prompt}>{i18next.t('userlinuxcwd', 'user@linux:{{cwd}}$', { cwd })}</span>
         <input
           type="text"
           value={command}

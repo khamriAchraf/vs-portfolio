@@ -4,8 +4,10 @@ import styles from "@/styles/Settings.module.css";
 import ThemeChip from "../../components/ThemeChip";
 import ThemeInfo from "../../components/ThemeInfo";
 import MusicSettings from "../../components/MusicSettings";
+import { useTranslation } from "react-i18next";
 
 const Settings = () => {
+  const { t, i18n } = useTranslation();
   const router = useRouter();
   const [selectedTopics, setSelectedTopics] = useState([]);
   const [availableTags, setAvailableTags] = useState([]);
@@ -26,7 +28,7 @@ const Settings = () => {
   useEffect(() => {
     setSelectedTopics(
       localStorage.getItem("selectedTopics") ||
-        JSON.stringify(["success", "motivation", "growth"])
+      JSON.stringify(["success", "motivation", "growth"])
     );
     fetchAvailableTags();
   }, []);
@@ -56,10 +58,31 @@ const Settings = () => {
 
   return (
     <>
-      <h2 id="theme" className={styles.title}>
-        Theme
+      <h2 id="music-player" className={styles.title}>
+        {t("lang", "Language")}
       </h2>
-      <p>Customize the way the website looks.</p>
+      <div className={styles.settings}>
+        <label htmlFor="musicTag">{t('pickLang', 'Pick the content language:')}</label>
+        <select
+          id="language"
+          value={i18n.resolvedLanguage || i18n.language}
+          onChange={(event) => {
+            const language = event.target.value;
+            i18n.changeLanguage(language);
+            localStorage.setItem("language", language);
+            document.documentElement.lang = language;
+          }}
+          className={styles.select}
+        >
+          <option value="en">{t("english", "English")}</option>
+          <option value="fr">{t("french", "French")}</option>
+        </select>
+      </div>
+      <div className={styles.divider}></div>
+      <h2 id="theme" className={styles.title}>
+        {t("theme", "Theme")}
+      </h2>
+      <p>{t("customizeTheWayTheWebsiteLooks", "Customize the way the website looks.")}</p>
       <div className={styles.container}>
         {themes.map((theme) => (
           <ThemeInfo key={theme} theme={theme} />
@@ -67,16 +90,16 @@ const Settings = () => {
       </div>
       <div className={styles.divider}></div>
       <h2 id="music-player" className={styles.title}>
-        Music Player
+        {t("musicPlayer", "Music Player")}
       </h2>
       <div>
         <MusicSettings />
       </div>
       <div className={styles.divider}></div>
       <h2 id="quote-of-the-day" className={styles.title}>
-        Quote of the day
+        {t("quoteOfTheDay", "Quote of the day")}
       </h2>
-      <p>Select the themes you wish to see in the quote of the day.</p>
+      <p>{t("selectTheThemesYouWishToSeeInTheQuoteOfTheDay", "Select the themes you wish to see in the quote of the day.")}</p>
       <div className={styles.topics}>
         {availableTags?.length > 0 &&
           availableTags.map((topic) => (

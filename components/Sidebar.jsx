@@ -41,10 +41,11 @@ const tabsItemsTop = [
     }
 ]
 
-const tabsItemsBottom = [{
+const tabsItemsBottom = [
+    {
     id: 98,
     Icon: VscAccount,
-    path: '/resume',
+    path: '/about',
 },
 {
     id: 99,
@@ -69,8 +70,8 @@ const Sidebar = () => {
                             <Icon
                                 fill={
                                     router.pathname === path
-                                        ? 'rgb(225, 228, 232)'
-                                        : 'rgb(106, 115, 125)'
+                                        ? "rgb(225, 228, 232)"
+                                        : "rgb(106, 115, 125)"
                                 }
                                 className={styles.icon}
                             />
@@ -85,8 +86,8 @@ const Sidebar = () => {
                             <Icon
                                 fill={
                                     router.pathname === path
-                                        ? 'rgb(225, 228, 232)'
-                                        : 'rgb(106, 115, 125)'
+                                        ? "rgb(225, 228, 232)"
+                                        : "rgb(106, 115, 125)"
                                 }
                                 className={styles.icon}
                             />

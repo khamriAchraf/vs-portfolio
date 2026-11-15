@@ -11,6 +11,7 @@ import {
 } from 'react-icons/vsc';
 import { MdVolumeUp, MdVolumeDown, MdVolumeOff } from 'react-icons/md';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next'
 
 // Create a global state for music controls that can be accessed from anywhere
 export const musicPlayerState = {
@@ -58,6 +59,14 @@ const tracks = [
 ];
 
 export default function MusicPlayer({ playerVisible, togglePlayer }) {
+    const { t } = useTranslation()
+    const tagLabels = {
+        gaming: t("musicTagGaming", "Gaming"),
+        lofi: t("musicTagLofi", "Lo-fi"),
+        classical: t("musicTagClassical", "Classical"),
+        opera: t("musicTagOpera", "Opera"),
+        all: t("musicTagAll", "All"),
+    };
     // Load selectedMusicTag from localStorage, default to 'lofi'
     const [selectedTag, setSelectedTag] = useState('lofi');
     useEffect(() => {
@@ -294,7 +303,7 @@ export default function MusicPlayer({ playerVisible, togglePlayer }) {
     return (
         <div className={`${styles.player} ${playerVisible ? styles.visible : styles.hidden}`}>
                 <div className={styles.titleContainer}>
-                    <p className={styles.title}>Music Player</p>
+                    <p className={styles.title}>{t('musicPlayer', 'Music Player')}</p>
                     <div className={styles.content}>
                         <Link href="/settings?section=music-player">
                             <VscSettingsGear className={styles.icon} />
@@ -339,10 +348,10 @@ export default function MusicPlayer({ playerVisible, togglePlayer }) {
                 <div className={styles.currentTrack}>
                     {filteredTracks.length > 0 && currentTrackIndex < filteredTracks.length && (
                         <div>
-                            {isLoading ? 'Loading...' : filteredTracks[currentTrackIndex].name}{!isLoading && filteredTracks[currentTrackIndex].author ? ` - ${filteredTracks[currentTrackIndex].author}` : ''}
+                            {isLoading ? t("loading", "Loading...") : filteredTracks[currentTrackIndex].name}{!isLoading && filteredTracks[currentTrackIndex].author ? t('author', '- {{author}}', { author: filteredTracks[currentTrackIndex].author }) : ''}
                         </div>
                     )}
-                    <div className={styles.tag}>{filteredTracks[currentTrackIndex].tag}</div>
+                    <div className={styles.tag}>{tagLabels[filteredTracks[currentTrackIndex].tag]}</div>
                 </div>
 
                 <div className={styles.progressBar} onClick={handleProgressClick}>
@@ -367,7 +376,7 @@ export default function MusicPlayer({ playerVisible, togglePlayer }) {
                                     }
                                 }}
                             >
-                                {track.name}{track.author ? ` - ${track.author}` : ''}
+                                {track.name}{track.author ? t('author', '- {{author}}', { author: track.author }) : ''}
                             </div>
                         ))}
                     </div>

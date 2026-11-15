@@ -7,6 +7,7 @@ import { FaJs } from "react-icons/fa";
 import { VscChevronRight, VscMarkdown } from "react-icons/vsc";
 import Link from "next/link";
 import { VscJson } from "react-icons/vsc";
+import { useTranslation } from "react-i18next";
 
 
 const explorerItems = [
@@ -17,8 +18,8 @@ const explorerItems = [
     class: styles.react
   },
   {
-    name: "resume.html",
-    path: "/resume",
+    name: "about.html",
+    path: "/about",
     Icon: FaHtml5,
     class: styles.html
   },
@@ -44,10 +45,11 @@ const explorerItems = [
 
 const Explorer = () => {
   const [portfolioOpen, setPortfolioOpen] = useState(true);
+  const { t } = useTranslation();
 
   return (
     <div className={styles.explorer}>
-      <p className={styles.title}>Explorer</p>
+      <p className={styles.title}>{t("explorer", "Explorer")}</p>
       <div>
         <input
           type="checkbox"
@@ -61,7 +63,7 @@ const Explorer = () => {
             className={styles.chevron}
             style={portfolioOpen ? { transform: "rotate(90deg)" } : {}}
           />
-          Portfolio
+          {t("portfolio", "Portfolio")}
         </label>
         <div
           className={styles.files}

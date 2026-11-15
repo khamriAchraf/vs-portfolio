@@ -1,0 +1,112 @@
+.resumeContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 5rem;
+}
+
+.resumeContainer ul {
+  margin: 0;
+}
+
+.resumeContainer li {
+  list-style: none;
+}
+
+.education,
+.experience {
+  margin-bottom: 40px;
+}
+
+.experience {
+  flex: 2;
+}
+
+.education {
+  flex: 1;
+}
+
+.badges {
+  background-color: var(--explorer-bg);
+  padding: 1rem;
+  margin-bottom: 10px;
+}
+
+.sectionTitle {
+  margin-bottom: 1.5rem;
+}
+
+.timelineItem {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 30px;
+  padding-left: 20px;
+  border-left: 5px solid var(--accent-color);
+}
+
+.education .timelineItem {
+  border-left: 5px solid var(--button-bg);
+}
+
+.itemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.image {
+  width: 50px;
+  height: auto;
+}
+
+.itemContent {
+  flex: 1;
+}
+
+.itemContent h3 {
+  margin: 0 0 5px;
+  font-size: 1.2rem;
+}
+
+.itemContent p {
+  margin: 0 0 10px;
+  opacity: 0.5;
+}
+
+.badgeContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 10px;
+}
+
+.badge {
+  width: 100px;
+  height: auto;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.button {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border-radius: 0px;
+  margin-top: 0.75rem;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  z-index: 5;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1200px) {
+  .resumeContainer {
+    display: block;
+  }
+  .resumeContainer > div:first-child {
+    border-right: none;
+    margin-bottom: 2.5rem;
+  }
+}

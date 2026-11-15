@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from '@/styles/Conway.module.css';
+import { useTranslation } from "react-i18next";
 
 const rows = 30;
 const cols = 30;
@@ -130,8 +131,22 @@ const PatternPreview = ({ patternName, patternCells, onClick }) => {
 };
 
 const Conway = () => {
+  const { t } = useTranslation();
   const [grid, setGrid] = useState(createEmptyGrid());
   const [isRunning, setIsRunning] = useState(false);
+  const patternLabels = {
+    Glider: t("patternGlider", "Glider"),
+    Blinker: t("patternBlinker", "Blinker"),
+    "Lightweight Spaceship": t(
+      "patternLightweightSpaceship",
+      "Lightweight Spaceship"
+    ),
+    Toad: t("patternToad", "Toad"),
+    Beacon: t("patternBeacon", "Beacon"),
+    Pulsar: t("patternPulsar", "Pulsar"),
+    Diehard: t("patternDiehard", "Diehard"),
+    Acorn: t("patternAcorn", "Acorn"),
+  };
 
   // Compute the next generation.
   const runIteration = () => {
@@ -234,24 +249,23 @@ const Conway = () => {
     <div className={styles.wrapper}>
       <div className={styles.info}>
         <p>
-          Conway&apos;s Game of Life is a cellular automaton. It uses a grid of cells,
-          where each cell is either alive or dead.
+          {t("conwayapossGameOfLifeIsACellularAutomatonItUsesAGridOfCellsWhereEachCellIsEitherAliveOrDead", "Conway's Game of Life is a cellular automaton. It uses a grid of cells,\r\n          where each cell is either alive or dead.")}
         </p>
-        <p>The next state of each cell is determined by a few simple rules:</p>
+        <p>{t("theNextStateOfEachCellIsDeterminedByAFewSimpleRules", "The next state of each cell is determined by a few simple rules:")}</p>
         <ul>
-          <li>Any live cell with fewer than 2 live neighbors dies.</li>
-          <li>Any live cell with 2 or 3 live neighbors lives on.</li>
-          <li>Any live cell with more than 3 live neighbors dies.</li>
-          <li>Any dead cell with exactly 3 live neighbors becomes a live cell.</li>
+          <li>{t("anyLiveCellWithFewerThan2LiveNeighborsDies", "Any live cell with fewer than 2 live neighbors dies.")}</li>
+          <li>{t("anyLiveCellWith2Or3LiveNeighborsLivesOn", "Any live cell with 2 or 3 live neighbors lives on.")}</li>
+          <li>{t("anyLiveCellWithMoreThan3LiveNeighborsDies", "Any live cell with more than 3 live neighbors dies.")}</li>
+          <li>{t("anyDeadCellWithExactly3LiveNeighborsBecomesALiveCell", "Any dead cell with exactly 3 live neighbors becomes a live cell.")}</li>
         </ul>
-        <p>When the game is paused, click a cell to toggle its state.</p>
+        <p>{t("whenTheGameIsPausedClickACellToToggleItsState", "When the game is paused, click a cell to toggle its state.")}</p>
         <div className={styles.patterns}>
-          <p>Load a custom pattern:</p>
+          <p>{t("loadACustomPattern", "Load a custom pattern:")}</p>
           <div className={styles.previewContainer}>
             {Object.entries(patterns).map(([name, cells]) => (
               <PatternPreview
                 key={name}
-                patternName={name}
+                patternName={patternLabels[name]}
                 patternCells={cells}
                 onClick={() => loadPattern(name)}
               />
@@ -262,10 +276,10 @@ const Conway = () => {
       <div>
         <div className={styles.controls}>
           <button onClick={handleStartStop}>
-            {isRunning ? 'Stop' : 'Start'}
+            {isRunning ? t("stop", "Stop") : t("start", "Start")}
           </button>
-          {!isRunning && <button onClick={runIteration}>Next</button>}
-          <button onClick={handleReset}>Reset</button>
+          {!isRunning && <button onClick={runIteration}>{t("next", "Next")}</button>}
+          <button onClick={handleReset}>{t("reset", "Reset")}</button>
         </div>
         <div className={styles.gameContainer}>
           <div className={styles.grid}>

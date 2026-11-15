@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from '@/styles/MusicSettings.module.css';
+import { useTranslation } from 'react-i18next'
 
 const availableTags = [
     'gaming',
@@ -10,7 +11,15 @@ const availableTags = [
 ];
 
 export default function MusicSettings({ onTagChange }) {
+    const { t } = useTranslation()
     const [selectedTag, setSelectedTag] = useState('lofi');
+    const tagLabels = {
+        gaming: t("musicTagGaming", "Gaming"),
+        lofi: t("musicTagLofi", "Lo-fi"),
+        classical: t("musicTagClassical", "Classical"),
+        opera: t("musicTagOpera", "Opera"),
+        all: t("musicTagAll", "All"),
+    };
 
     useEffect(() => {
         const storedTag = localStorage.getItem('selectedMusicTag') || 'lofi';
@@ -28,7 +37,7 @@ export default function MusicSettings({ onTagChange }) {
 
     return (
         <div className={styles.settings}>
-            <label htmlFor="musicTag">Pick a music style:</label>
+            <label htmlFor="musicTag">{t('pickAMusicStyle', 'Pick a music style:')}</label>
             <select
                 id="musicTag"
                 value={selectedTag}
@@ -37,7 +46,7 @@ export default function MusicSettings({ onTagChange }) {
             >
                 {availableTags.map(tag => (
                     <option key={tag} value={tag}>
-                        {tag.charAt(0).toUpperCase() + tag.slice(1)}
+                        {tagLabels[tag]}
                     </option>
                 ))}
             </select>

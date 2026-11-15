@@ -4,8 +4,10 @@ import { VscClose, VscQuote, VscSettings, VscSettingsGear } from "react-icons/vs
 import { useSelectedQuoteThemes } from "../context/selectedQuoteThemes";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 const Quote = ({ showQuote, hideQuote }) => {
+    const { t } = useTranslation();
     const router = useRouter();
     const [quote, setQuote] = useState({ content: "", author: "" });
 
@@ -50,7 +52,7 @@ const Quote = ({ showQuote, hideQuote }) => {
     return (
         <div className={styles.quote}>
             <div className={styles.titleContainer}>
-                <p className={styles.title}>Quote of the day</p>
+                <p className={styles.title}>{t("quoteOfTheDay", "Quote of the day")}</p>
                 <div className={styles.content}>
                     <Link href="/settings?section=quote-of-the-day">
                         <VscSettingsGear className={styles.icon} />
@@ -73,13 +75,13 @@ const Quote = ({ showQuote, hideQuote }) => {
                 </a >
                 <div>
                     <button className={styles.button} onClick={fetchQuote}>
-                        Refresh
+                        {t("refresh", "Refresh")}
                     </button>
                     <button
                         className={styles.sbutton}
                         onClick={() => hideQuote()}
                     >
-                        Dismiss
+                        {t("dismiss", "Dismiss")}
                     </button>
                 </div>
             </div >

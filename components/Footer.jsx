@@ -8,9 +8,11 @@ import { VscBell } from "react-icons/vsc";
 import { VscRemote } from "react-icons/vsc";
 import { VscMusic, VscDebugPause, VscDebugStart } from "react-icons/vsc";
 import { musicPlayerState } from './MusicPlayer';
+import { useTranslation } from "react-i18next";
 
 const Footer = ({ quoteVisible, playerVisible, toggleQuote, togglePlayer, toggleTimeMachine }) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const { t } = useTranslation();
 
   // Keep local state in sync with global state
   useEffect(() => {
@@ -61,7 +63,7 @@ const Footer = ({ quoteVisible, playerVisible, toggleQuote, togglePlayer, toggle
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
-        <div className={styles.remoteSection} onClick={toggleTimeMachine} title="Time Machine">
+        <div className={styles.remoteSection} onClick={toggleTimeMachine} title={t("timeMachine", "Time Machine")}>
           <VscRemote className={styles.remoteIcon} />
         </div>
         
@@ -73,7 +75,7 @@ const Footer = ({ quoteVisible, playerVisible, toggleQuote, togglePlayer, toggle
           className={styles.section}
         >
           <VscSourceControl className={styles.icon} />
-          <p>master</p>
+          <p>{t("master", "master")}</p>
         </a>
         <div className={styles.section}>
           <VscError className={styles.icon} />
@@ -88,7 +90,7 @@ const Footer = ({ quoteVisible, playerVisible, toggleQuote, togglePlayer, toggle
           rel="noreferrer noopener"
           className={styles.section}
         >
-          <p>Inspired by Nitin Ranganath</p>
+          <p>{t("inspiredByNitinRanganath", "Inspired by Nitin Ranganath")}</p>
         </a>
       </div>
       <div className={styles.container}>
@@ -101,12 +103,12 @@ const Footer = ({ quoteVisible, playerVisible, toggleQuote, togglePlayer, toggle
           <div className={styles.wave}></div>
           <div className={styles.wave}></div>
           <VscMusic className={styles.qicon} />
-          <p>Music Player</p>
+          <p>{t("musicPlayer", "Music Player")}</p>
           <button 
             className={styles.playPauseButton}
             onClick={handlePlayPauseClick}
             type="button"
-            aria-label={isPlaying ? 'Pause' : 'Play'}
+            aria-label={isPlaying ? t("pause", "Pause") : t("play", "Play")}
           >
             {isPlaying ? <VscDebugPause /> : <VscDebugStart />}
           </button>
@@ -116,11 +118,11 @@ const Footer = ({ quoteVisible, playerVisible, toggleQuote, togglePlayer, toggle
           onClick={() => toggleQuote()}
         >
           <VscQuote className={styles.qicon} />
-          <p>Quote of the day</p>
+          <p>{t("quoteOfTheDay", "Quote of the day")}</p>
         </div>
         <div className={styles.section}>
           <VscCheckAll className={styles.icon} />
-          <p>Prettier</p>
+          <p>{t("prettier", "Prettier")}</p>
         </div>
         <div className={styles.section}>
           <VscBell className={styles.icon} />

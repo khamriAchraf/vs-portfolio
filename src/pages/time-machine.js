@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import styles from '@/styles/TimeMachine.module.css';
+import { useTranslation } from "react-i18next";
 
 const portals = [
   {
@@ -17,6 +18,8 @@ const portals = [
 ];
 
 const TimeMachine = () => {
+  const { t } = useTranslation();
+
   return (
     <React.Fragment>
       <div className={styles.container}>
@@ -30,8 +33,8 @@ const TimeMachine = () => {
 
         <div className={styles.perspective}>
           <div className={styles.skew}>
-            <h3 className={styles.perspective_heading}>Step into the portal</h3>
-            <h3 className={styles.perspective_subheading}>For previous iterations of this website</h3>
+            <h3 className={styles.perspective_heading}>{t("stepIntoThePortal", "Step into the portal")}</h3>
+            <h3 className={styles.perspective_subheading}>{t("forPreviousIterationsOfThisWebsite", "For previous iterations of this website")}</h3>
             <div className={styles.portals}>
               {portals.map(({ version, url, label }) => (
                 <Link href={url} key={version} legacyBehavior>
