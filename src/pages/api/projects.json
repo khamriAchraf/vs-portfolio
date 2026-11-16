@@ -5,7 +5,7 @@
     "logo": "/medicon-icon.png",
     "description": "A platform for medical professionals to manage their practice, powered by AI.",
     "tags": ["next", "node", "mongodb", "tailwind", "react-query"],
-    "link": "https://medicon-next-1p8ehwzl2-khamriachrafs-projects.vercel.app/login"
+    "link": "https://medicon.achrafkhamri.com/login"
   },  
   {
     "id": 3,
