@@ -9,11 +9,11 @@
   },  
   {
     "id": 3,
-    "title": "Digi Secure",
+    "title": "DigiSecure",
     "logo": "/digi.png",
     "description": "A unified solution for digital asset management and cyber regulatory monitoring.",
     "tags": ["react", "node", "mongodb", "redux", "razorpay", "material-ui"],
-    "link": "https://digi-secure.vercel.app/"
+    "link": "https://digisecure.achrafkhamri.com"
   },
   {
     "id": 2,
