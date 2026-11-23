@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import i18next from "../i18n";
 import Layout from "../../components/Layout";
 import { SelectedQuoteThemesProvider } from "../../context/selectedQuoteThemes";
+import { Analytics } from "@vercel/analytics/next";
 
 export default function App({ Component, pageProps }) {
   useEffect(() => {
@@ -22,10 +23,13 @@ export default function App({ Component, pageProps }) {
     }
   }, []);
   return (
-    <SelectedQuoteThemesProvider>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </SelectedQuoteThemesProvider>
+    <>
+      <SelectedQuoteThemesProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </SelectedQuoteThemesProvider>
+      <Analytics />
+    </>
   );
 }
